@@ -1,0 +1,108 @@
+/* === watch.css === */
+
+/* Stream container */
+.stream-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 20px;
+  }
+  
+  /* Video player area */
+  .stream-player {
+    background: #000;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 ratio */
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .stream-player p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+  }
+  
+  /* Stream details text */
+  .stream-details {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  /* Flex container for chat and FOMO reels */
+  .live-chat-wrapper {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+  }
+  
+  /* Chat panel styling */
+  .chat-panel {
+    flex: 2;
+    background: #f9f9f9;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+  }
+  
+  .chat-panel header {
+    padding: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .chat-window {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  
+  .chat-input {
+    border-top: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .chat-input input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* FOMO Reels panel */
+  .fomo-panel {
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+  }
+  
+  .fomo-panel header {
+    padding: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .fomo-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .fomo-item {
+    background: #eee;
+    height: 80px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  

@@ -41,6 +41,12 @@ body {
     color: #007aff;
 }
 
+.nav ul li a.active {
+    color: #007aff;
+    font-weight: bold;
+    border-bottom: 2px solid #007aff;
+}
+
 /* === Hero Section === */
 .hero {
     background-color: #f2f2f2;
