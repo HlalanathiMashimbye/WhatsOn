@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsOn | Event Details</title>
+    <title>WhatsOn | Cart</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <script src="../js/scripts.js" defer></script> <!-- Link to future scripts -->
+    <script src="../js/scripts.js" defer></script> <!-- Link to the JS file -->
 </head>
 <body>
 
@@ -16,7 +16,7 @@
         <nav class="nav">
             <ul>
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="events.html">EventFinder</a></li>
+                <li><a href="../eventfinder/events.html">EventFinder</a></li>
                 <li><a href="../livestream/streams.html">LiveStream</a></li>
                 <li><a href="../jamspace/venues.html">JamSpace</a></li>
                 <li><a href="../profile/profile.html">Profile</a></li>
@@ -25,30 +25,35 @@
     </div>
 </header>
 
-<!-- Event Details Section -->
+<!-- Cart Page Section -->
 <section class="featured-categories">
     <div class="container">
-        <h2>Jazz Night @ Gardens 🎷</h2>
+        <h2>Your Cart</h2>
 
         <div class="category-grid" style="justify-content: center;">
 
+            <!-- Cart Item 1 -->
             <div class="event-card" style="width: 600px;">
-                <img src="../images/jazznight.jpg" alt="Jazz Night Event">
-                <h3>Event Details</h3>
-                <p><strong>Date:</strong> Tonight</p>
-                <p><strong>Time:</strong> 7:00 PM</p>
-                <p><strong>Location:</strong> Gardens Amphitheatre, Cape Town</p>
+                <img src="../images/jazznight.jpg" alt="Jazz Night Ticket">
+                <h3>Jazz Night @ Gardens</h3>
                 <p><strong>Price:</strong> R80</p>
-                <p><strong>Description:</strong> 
-                    Join us under the stars for an unforgettable night of smooth jazz featuring Cape Town’s finest local artists. Food trucks and artisan stalls available.
-                </p>
-
-                <div style="margin-top: 20px;">
-                    <button class="btn-primary" onclick="addToCart('Jazz Night Ticket')">Add to Cart</button>
-                    <a href="../cart/cart.html" class="btn-secondary" style="margin-left: 10px;">Go to Cart</a>
-                </div>
+                <button class="btn-secondary" onclick="removeFromCart('Jazz Night Ticket')">Remove from Cart</button>
             </div>
 
+            <!-- Cart Item 2 -->
+            <div class="event-card" style="width: 600px;">
+                <img src="../images/popstreet.jpg" alt="Street Pop-Up Session">
+                <h3>Street Pop-Up Session</h3>
+                <p><strong>Price:</strong> Free Entry</p>
+                <button class="btn-secondary" onclick="removeFromCart('Street Pop-Up Session')">Remove from Cart</button>
+            </div>
+
+        </div>
+
+        <!-- Checkout Section -->
+        <div class="checkout">
+            <p><strong>Total: </strong> R80</p> <!-- Add dynamic JS for total -->
+            <a href="checkout.html" class="btn-primary">Proceed to Checkout</a>
         </div>
     </div>
 </section>
