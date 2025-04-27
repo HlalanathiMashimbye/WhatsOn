@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WhatsOn | Sunset Rooftop</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/venue-detail.css"> <!-- Venue-specific styles -->
+
+  <script src="../js/scripts.js" defer></script>
+
+  <style>
+    body {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                  url('../images/sunsetrooftop.jpg') no-repeat center center/cover;
+      background-attachment: fixed;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <h1 class="logo">WhatsOn</h1>
+      <button class="hamburger" onclick="toggleMenu()">☰</button>
+
+      <nav class="nav">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../eventfind/events.html">EventFind</a></li>
+          <li><a href="../livestream/streams.html">LiveStream</a></li>
+          <li><a href="venues.html" class="active">VenueConnect</a></li>
+          <li><a href="../profile/profile.html">Profile</a></li>
+          <li><a href="../cart/cart.html">Cart</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Venue Details Section -->
+  <section class="featured-categories">
+    <div class="container">
+      <h2>Sunset Rooftop 🌇</h2>
+
+      <div class="category-grid" style="justify-content: center;">
+
+        <div class="venue-card">
+          <img src="../images/sunsetrooftop.jpg" alt="Sunset Rooftop">
+          <h3>Venue Details</h3>
+          <p><strong>Capacity:</strong> 80 people</p>
+          <p><strong>Price:</strong> R250 per hour</p>
+          <p><strong>Location:</strong> 789 Skyline Ave, Cape Town</p>
+          <p><strong>Amenities:</strong> Outdoor stage, sound system, bar, and rooftop seating</p>
+          <p><strong>Description:</strong>  
+            Sunset Rooftop offers stunning panoramic views of Cape Town, making it the perfect venue for evening performances, live music, and parties. Equipped with a premium sound system and bar service.
+          </p>
+
+          <!-- Booking Controls -->
+          <div style="margin-top: 20px;">
+            <label for="booking-date">Select Date:</label>
+            <input type="date" id="booking-date" name="booking-date" min="" required>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <label for="hours">Select Hours:</label>
+            <select id="hours" required>
+              <option value="1">1 hour</option>
+              <option value="2">2 hours</option>
+              <option value="3">3 hours</option>
+              <option value="4">4 hours</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <button class="btn-primary" onclick="validateBooking()">Book Now</button>
+            <a href="../cart/cart.html" class="btn-secondary" style="margin-left: 10px;">Go to Cart</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 WhatsOn | All rights reserved | 0676055801</p>
+      <nav class="footer-nav">
+        <ul>
+          <li><a href="../about/about.html">About</a></li>
+          <li><a href="../about/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="../about/terms-of-use.html">Terms of Use</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // Set the min date to today for the date picker
+    document.getElementById('booking-date').setAttribute('min', new Date().toISOString().split('T')[0]);
+
+    // Validate the booking date and hour selection
+    function validateBooking() {
+      const bookingDate = document.getElementById('booking-date').value;
+      const hours = document.getElementById('hours').value;
+
+      // Check if the user has selected a date and hours
+      if (!bookingDate || !hours) {
+        alert('Please select a valid date and hours.');
+        return;
+      }
+
+      // Add item to the cart with validation
+      const date = new Date(bookingDate);
+      const currentDate = new Date();
+
+      // If the selected date is in the past
+      if (date < currentDate) {
+        alert('The selected date cannot be in the past. Please choose a valid date.');
+        return;
+      }
+
+      addToCart(`Sunset Rooftop - ${hours}hr booking on ${bookingDate}`);
+    }
+
+    // Add booking to cart
+    function addToCart(item) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(item);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(item + " has been added to your cart!");
+    }
+  </script>
+
+</body>
+</html>

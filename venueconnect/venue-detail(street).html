@@ -3,9 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>WhatsOn | Venue Details</title>
-  <link rel="stylesheet" href="../css/styles.css" />
+  <title>WhatsOn | Street Corner Pop-Up</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/venue-detail.css"> <!-- Venue-specific styles -->
   <script src="../js/scripts.js" defer></script>
+
+  <style>
+    body {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                  url('../images/streetcorner.jpg') no-repeat center center/cover;
+      background-attachment: fixed;
+      color: white;
+    }
+  </style>
 </head>
 <body>
 
@@ -14,35 +24,35 @@
     <div class="container">
       <h1 class="logo">WhatsOn</h1>
       <button class="hamburger" onclick="toggleMenu()">☰</button>
-
       <nav class="nav">
         <ul>
           <li><a href="../index.html">Home</a></li>
           <li><a href="../eventfind/events.html">EventFind</a></li>
           <li><a href="../livestream/streams.html">LiveStream</a></li>
-          <li><a href="venues.html">VenueConnect</a></li>
+          <li><a href="venues.html" class="active">VenueConnect</a></li>
           <li><a href="../profile/profile.html">Profile</a></li>
+          <li><a href="../cart/cart.html">Cart</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <!-- Venue Detail Section -->
+  <!-- Venue Details Section -->
   <section class="featured-categories">
     <div class="container">
-      <h2>The Blue Room 🎶</h2>
+      <h2>Street Corner Pop-Up 🎤</h2>
 
       <div class="category-grid" style="justify-content: center;">
 
-        <div class="venue-card" >
-          <img src="../images/blueroom.jpg" alt="The Blue Room">
+        <div class="venue-card">
+          <img src="../images/streetcorner.jpg" alt="Street Corner Pop-Up">
           <h3>Venue Details</h3>
-          <p><strong>Capacity:</strong> 50 people</p>
-          <p><strong>Price:</strong> R200 per hour</p>
-          <p><strong>Location:</strong> 123 Jazz St, Cape Town</p>
-          <p><strong>Amenities:</strong> Sound system, stage lighting, bar service</p>
+          <p><strong>Capacity:</strong> 30 people</p>
+          <p><strong>Price:</strong> R100 per hour</p>
+          <p><strong>Location:</strong> Main Street Corner, Cape Town</p>
+          <p><strong>Amenities:</strong> Portable PA system, small stage, ambient lighting</p>
           <p><strong>Description:</strong>  
-            The Blue Room is an intimate live music venue perfect for jazz ensembles, acoustic sets, and small rehearsals. State-of-the-art sound and lighting ensure a stunning performance.
+            A cozy street-corner venue ideal for impromptu jams and acoustic pop-ups. Perfect for small audiences and spontaneous performances under the open sky.
           </p>
 
           <!-- Booking Controls -->
@@ -85,31 +95,31 @@
   </footer>
 
   <script>
-    // Set the min date to today for the date picker
+    // Set the min date to today
     document.getElementById('booking-date').setAttribute('min', new Date().toISOString().split('T')[0]);
 
-    // Validate the booking date and hour selection
+    // Validate and add booking to cart
     function validateBooking() {
       const bookingDate = document.getElementById('booking-date').value;
       const hours = document.getElementById('hours').value;
-
-      // Check if the user has selected a date and hours
       if (!bookingDate || !hours) {
-        alert('Please select a valid date and hours.');
+        alert('Please select both a date and duration.');
         return;
       }
-
-      // Add item to the cart with validation
       const date = new Date(bookingDate);
-      const currentDate = new Date();
-
-      // If the selected date is in the past
-      if (date < currentDate) {
-        alert('The selected date cannot be in the past. Please choose a valid date.');
+      if (date < new Date()) {
+        alert('Cannot book a past date.');
         return;
       }
+      addToCart(`Street Corner Pop-Up - ${hours}hr booking on ${bookingDate}`);
+    }
 
-      addToCart(`The Blue Room - ${hours}hr booking on ${bookingDate}`);
+    // Add item to cart in localStorage
+    function addToCart(item) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(item);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(item + ' has been added to your cart!');
     }
   </script>
 
