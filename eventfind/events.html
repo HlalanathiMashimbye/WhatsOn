@@ -20,13 +20,87 @@
       margin-left: 10px;
       vertical-align: middle;
     }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-  </style>
 
+    /* Enhanced Search Bar Styles */
+    .search-container {
+      text-align: center;
+      margin: 30px 0;
+      position: relative;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .search-container input {
+      width: 100%;
+      padding: 14px 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 50px;
+      font-size: 16px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      background-color: #fff;
+    }
+    
+    .search-container input:focus {
+      outline: none;
+      border-color: #4dabf7;
+      box-shadow: 0 4px 12px rgba(77, 171, 247, 0.2);
+    }
+    
+    .search-container::before {
+      content: "🔍";
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: #777;
+      pointer-events: none;
+    }
+    
+    .search-container input {
+      padding-left: 45px;
+    }
+    
+    /* Enhanced Refresh Button */
+    #refresh-location {
+      background: linear-gradient(135deg, #4dabf7 0%, #3672e5 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px auto 30px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(54, 114, 229, 0.25);
+    }
+    
+    #refresh-location:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(54, 114, 229, 0.35);
+    }
+    
+    #refresh-location:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 5px rgba(54, 114, 229, 0.35);
+    }
+    
+    #refresh-location::before {
+      content: "📍";
+      margin-right: 8px;
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
 
@@ -34,6 +108,8 @@
 <header class="header">
   <div class="container">
     <h1 class="logo">WhatsOn</h1>
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+
     <nav class="nav">
       <ul>
         <li><a href="../index.html">Home</a></li>
@@ -58,12 +134,22 @@
     </h2>
 
     <!-- Refresh Location Button (hidden initially) -->
-    <button id="refresh-location" onclick="getLocation()" class="btn-primary" style="margin-bottom: 20px; display: none;">
+    <button id="refresh-location" onclick="getLocation()" style="display: none;">
       Refresh Location
     </button>
 
+    <!-- Search Bar -->
+    <div class="search-container">
+      <input 
+        type="text" 
+        id="event-search" 
+        placeholder="Search for events..." 
+        onkeyup="filterEvents()"
+      />
+    </div>
+
     <!-- Event Cards -->
-    <div class="category-grid">
+    <div class="category-grid" id="events-grid">
 
       <div class="event-card">
         <img src="../images/jazznight.jpg" alt="Jazz Night Gardens">
@@ -110,6 +196,18 @@
     </nav>
   </div>
 </footer>
+
+<script>
+  // Filter event cards based on search input
+  function filterEvents() {
+    const query = document.getElementById('event-search').value.toLowerCase();
+    const cards = document.querySelectorAll('#events-grid .event-card');
+    cards.forEach(card => {
+      const title = card.querySelector('h3').textContent.toLowerCase();
+      card.style.display = title.includes(query) ? '' : 'none';
+    });
+  }
+</script>
 
 </body>
 </html>

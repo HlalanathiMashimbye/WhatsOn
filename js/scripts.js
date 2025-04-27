@@ -1,5 +1,20 @@
 // scripts.js
 
+
+// Add this at the end of your scripts.js
+
+/**
+ * Toggles the mobile nav menu open/closed
+ */
+function toggleMenu() {
+  const nav = document.querySelector('.nav');
+  nav.classList.toggle('active');
+}
+
+// =========================
+// Cart Handling
+// =========================
+
 // Retrieve cart from localStorage or initialize empty
 function getCart() {
     return JSON.parse(localStorage.getItem('cart')) || [];

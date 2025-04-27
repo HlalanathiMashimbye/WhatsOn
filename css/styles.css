@@ -16,6 +16,7 @@ body {
 .header {
     background-color: #b4b3b3;
     padding: 20px 0;
+    position: relative;
 }
 
 .header .logo {
@@ -24,11 +25,29 @@ body {
     text-decoration: none;
 }
 
+/* Hamburger Menu Button */
+.hamburger {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #333333;
+    transition: color 0.3s ease;
+}
+.hamburger:hover {
+    color: #007aff;
+}
+
 .nav ul {
     list-style: none;
     display: flex;
     gap: 20px;
     padding: 0;
+    transition: max-height 0.3s ease;
 }
 
 .nav ul li a {
@@ -71,6 +90,7 @@ body {
     border-radius: 6px;
     display: inline-block;
     margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
 .btn-primary:hover {
@@ -98,7 +118,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     text-align: center;
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
 }
 
 .category-card img {
@@ -121,6 +141,7 @@ body {
     text-decoration: none;
     display: inline-block;
     margin-top: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn-secondary:hover {
@@ -149,6 +170,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     text-align: center;
+    transition: transform 0.3s ease;
 }
 
 .product-card img {
@@ -167,6 +189,7 @@ body {
     text-decoration: none;
     display: inline-block;
     margin-top: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn-outline:hover {
@@ -194,10 +217,12 @@ body {
 .footer-nav ul li a {
     color: white;
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .footer-nav ul li a:hover {
     text-decoration: underline;
+    color: #007aff;
 }
 
 /* === Event, Stream, Venue Cards === */
@@ -208,7 +233,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     text-align: center;
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
 }
 
 .event-card img, .stream-card img, .venue-card img {
@@ -232,3 +257,47 @@ body {
     margin-bottom: 10px;
 }
 
+/* === Mobile Styles & Hamburger Menu === */
+@media (max-width: 768px) {
+    /* Show hamburger */
+    .hamburger {
+        display: block;
+    }
+
+    /* Hide nav links by default */
+    .nav ul {
+        flex-direction: column;
+        max-height: 0;
+        overflow: hidden;
+    }
+
+    /* When active, show nav */
+    .nav.active ul {
+        max-height: 300px;
+    }
+
+    /* Nav items spacing */
+    .nav ul li {
+        margin: 10px 0;
+    }
+
+    /* Make grid stack on mobile */
+    .category-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Cards full width */
+    .event-card, .stream-card, .venue-card, .category-card, .product-card {
+        width: 90%;
+    }
+
+    /* Footer links stack */
+    .footer-nav ul {
+        flex-direction: column;
+    }
+
+    .footer-nav ul li {
+        margin-bottom: 10px;
+    }
+}
