@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WhatsOn | Sunset Beats @ Clifton</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/event-detail.css"> <!-- Event-specific styles -->
+  <script src="../js/scripts.js" defer></script>
+
+  <style>
+    body {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                  url('../images/sunsetbeats.jpg') no-repeat center center/cover;
+      background-attachment: fixed;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <h1 class="logo">WhatsOn</h1>
+      <button class="hamburger" onclick="toggleMenu()">☰</button>
+      <nav class="nav">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="events.html" class="active">EventFind</a></li>
+          <li><a href="../livestream/streams.html">LiveStream</a></li>
+          <li><a href="../venueconnect/venues.html">VenueConnect</a></li>
+          <li><a href="../profile/profile.html">Profile</a></li>
+          <li><a href="../cart/cart.html">Cart</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Event Details Section -->
+  <section class="featured-categories">
+    <div class="container">
+      <h2>Sunset Beats @ Clifton 🌅</h2>
+
+      <div class="category-grid" style="justify-content: center;">
+        <div class="event-card">
+          <img src="../images/sunsetbeats.jpg" alt="Sunset Beats @ Clifton">
+          <h3>Event Details</h3>
+          <p><strong>Date:</strong> Saturday</p>
+          <p><strong>Time:</strong> 6:00 PM</p>
+          <p><strong>Location:</strong> Clifton Beach, Cape Town</p>
+          <p><strong>Price:</strong> R50</p>
+          <p><strong>Description:</strong> 
+            Catch the golden hour grooves at Clifton Beach as local DJs spin chill sunset beats. Bring your blanket, grab a sunset cocktail, and vibe to the rhythm by the sea.
+          </p>
+
+          <div style="margin-top: 20px;">
+            <button class="btn-primary" onclick="addToCart('Sunset Beats @ Clifton Ticket')">Add to Cart</button>
+            <a href="../cart/cart.html" class="btn-secondary" style="margin-left: 10px;">Go to Cart</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 WhatsOn | All rights reserved | 0676055801</p>
+      <nav class="footer-nav">
+        <ul>
+          <li><a href="../about/about.html">About</a></li>
+          <li><a href="../about/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="../about/terms-of-use.html">Terms of Use</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+</body>
+</html>

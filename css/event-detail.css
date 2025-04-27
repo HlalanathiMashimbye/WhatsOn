@@ -1,0 +1,92 @@
+/* === Event Detail Page Styles === */
+
+body {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), #000;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Background will be dynamically set by the page */
+.featured-categories {
+    background: none;
+    padding-top: 80px;
+    padding-bottom: 40px;
+    flex: 1;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.event-card {
+    background-color: rgba(255, 255, 255, 0.1); /* Transparent background for cards */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px); /* Glass effect */
+    color: white;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.event-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+h2, h3 {
+    color: white;
+}
+
+p {
+    color: #e0e0e0;
+}
+
+.btn-primary, .btn-secondary {
+    margin-top: 10px;
+}
+
+/* === Mobile Responsive === */
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll; /* Fix for mobile scroll behavior */
+    }
+
+    .event-card {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .container {
+        width: 95%;
+    }
+
+    .featured-categories {
+        padding-top: 60px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+}
