@@ -1,85 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsOn | EventFinder</title>
-    <link rel="stylesheet" href="../css/styles.css"> <!-- Link to your main CSS -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WhatsOn | EventFinder</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="../js/scripts.js" defer></script>
+
+  <style>
+    /* Inline Spinner Animation */
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #e63946; /* Red tone */
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+
 </head>
 <body>
 
 <!-- Header -->
 <header class="header">
-    <div class="container">
-        <h1 class="logo">WhatsOn</h1>
-        <nav class="nav">
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="events.html" class="active">EventFinder</a></li>
-                <li><a href="../livestream/streams.html">LiveStream</a></li>
-                <li><a href="../venueconnect/venues.html">VenueConnect</a></li>
-                <li><a href="../profile/profile.html">Profile</a></li>
-                <li><a href="../cart/cart.html">Cart</a></li>
-            </ul>
-        </nav>
-    </div>
+  <div class="container">
+    <h1 class="logo">WhatsOn</h1>
+    <nav class="nav">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="events.html" class="active">EventFinder</a></li>
+        <li><a href="../livestream/streams.html">LiveStream</a></li>
+        <li><a href="../venueconnect/venues.html">VenueConnect</a></li>
+        <li><a href="../profile/profile.html">Profile</a></li>
+        <li><a href="../cart/cart.html">Cart</a></li>
+      </ul>
+    </nav>
+  </div>
 </header>
 
 <!-- Event Listing Section -->
 <section class="featured-categories">
-    <div class="container">
-        <h2>Find Live Events Near You 🎷</h2>
+  <div class="container">
+    
+    <!-- Location Heading with Spinner -->
+    <h2 id="location-heading">
+      <span id="location-text">Finding events near you... 🎷</span>
+      <span id="loading-spinner" class="spinner"></span>
+    </h2>
 
-        <div class="category-grid">
+    <!-- Refresh Location Button (hidden initially) -->
+    <button id="refresh-location" onclick="getLocation()" class="btn-primary" style="margin-bottom: 20px; display: none;">
+      Refresh Location
+    </button>
 
-            <!-- Event Card 1 -->
-            <div class="event-card">
-                <img src="../images/jazznight.jpg" alt="Jazz Night Gardens">
-                <h3>Jazz Night @ Gardens</h3>
-                <p>Starts: Tonight, 7PM | R80</p>
-                <a href="event-detail.html" class="btn-primary">View Event</a>
-            </div>
+    <!-- Event Cards -->
+    <div class="category-grid">
 
-            <!-- Event Card 2 -->
-            <div class="event-card">
-                <img src="../images/popstreet.jpg" alt="Street Pop Up">
-                <h3>Street Pop-Up Session</h3>
-                <p>Starts: Tomorrow, 5PM | Free Entry</p>
-                <a href="event-detail.html" class="btn-primary">View Event</a>
-            </div>
+      <div class="event-card">
+        <img src="../images/jazznight.jpg" alt="Jazz Night Gardens">
+        <h3>Jazz Night @ Gardens</h3>
+        <p>Starts: Tonight, 7PM | R80</p>
+        <a href="event-detail.html" class="btn-primary">View Event</a>
+      </div>
 
-            <!-- Event Card 3 -->
-            <div class="event-card">
-                <img src="../images/sunsetbeats.jpg" alt="Sunset Beats">
-                <h3>Sunset Beats @ Clifton</h3>
-                <p>Starts: Saturday, 6PM | R50</p>
-                <a href="event-detail.html" class="btn-primary">View Event</a>
-            </div>
+      <div class="event-card">
+        <img src="../images/popstreet.jpg" alt="Street Pop Up">
+        <h3>Street Pop-Up Session</h3>
+        <p>Starts: Tomorrow, 5PM | Free Entry</p>
+        <a href="event-detail.html" class="btn-primary">View Event</a>
+      </div>
 
-            <!-- Event Card 4 -->
-            <div class="event-card">
-                <img src="../images/classicalevening.jpg" alt="Classical Evening">
-                <h3>Classical Evening @ Baxter</h3>
-                <p>Starts: Friday, 8PM | R120</p>
-                <a href="event-detail.html" class="btn-primary">View Event</a>
-            </div>
+      <div class="event-card">
+        <img src="../images/sunsetbeats.jpg" alt="Sunset Beats">
+        <h3>Sunset Beats @ Clifton</h3>
+        <p>Starts: Saturday, 6PM | R50</p>
+        <a href="event-detail.html" class="btn-primary">View Event</a>
+      </div>
 
-        </div>
+      <div class="event-card">
+        <img src="../images/classicalevening.jpg" alt="Classical Evening">
+        <h3>Classical Evening @ Baxter</h3>
+        <p>Starts: Friday, 8PM | R120</p>
+        <a href="event-detail.html" class="btn-primary">View Event</a>
+      </div>
+
     </div>
+  </div>
 </section>
 
 <!-- Footer -->
 <footer class="footer">
-    <div class="container">
-        <p>&copy; 2025 WhatsOn | All rights reserved.</p>
-        <nav class="footer-nav">
-            <ul>
-                <li><a href="../about/about.html">About</a></li>
-                <li><a href="../about/privacy-policy.html">Privacy Policy</a></li>
-                <li><a href="../about/terms-of-use.html">Terms of Use</a></li>
-            </ul>
-        </nav>
-    </div>
+  <div class="container">
+    <p>&copy; 2025 WhatsOn | All rights reserved.</p>
+    <nav class="footer-nav">
+      <ul>
+        <li><a href="../about/about.html">About</a></li>
+        <li><a href="../about/privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="../about/terms-of-use.html">Terms of Use</a></li>
+      </ul>
+    </nav>
+  </div>
 </footer>
 
 </body>

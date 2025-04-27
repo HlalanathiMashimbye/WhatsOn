@@ -6,6 +6,38 @@
   <title>WhatsOn | Live Stream</title>
   <link rel="stylesheet" href="../css/styles.css" />
   <link rel="stylesheet" href="../css/watch-stream.css" />
+  <style>
+    /* Spinner overlay */
+    .stream-player {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .stream-player iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+    .stream-spinner {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px; height: 50px;
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #e63946;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      z-index: 10;
+    }
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+  </style>
   <script src="../js/scripts.js" defer></script>
 </head>
 <body>
@@ -18,11 +50,10 @@
         <ul>
           <li><a href="../index.html">Home</a></li>
           <li><a href="../eventfind/events.html">EventFinder</a></li>
-          <li><a href="streams.html">LiveStream</a></li>
+          <li><a href="streams.html" class="active">LiveStream</a></li>
           <li><a href="../venueconnect/venues.html">VenueConnect</a></li>
           <li><a href="../profile/profile.html">Profile</a></li>
           <li><a href="../cart/cart.html">Cart</a></li>
-
         </ul>
       </nav>
     </div>
@@ -33,9 +64,18 @@
     <div class="stream-container">
       <h2>Jazz Night @ Gardens <span class="badge-live">LIVE</span></h2>
 
-      <!-- Video Player -->
+      <!-- Video Player + Spinner -->
       <div class="stream-player">
-        <p>Video Player Placeholder</p>
+        <div id="spinner" class="stream-spinner"></div>
+        <iframe 
+          id="videoFrame"
+          src="https://www.youtube.com/embed/dHp8h3rpqnY?si=V55-QtYhBFOjomqN&autoplay=1&mute=1" 
+          title="YouTube video player" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="no-referrer-when-downgrade" 
+          allowfullscreen>
+        </iframe>
       </div>
       
       <div class="stream-details">
@@ -44,7 +84,6 @@
 
       <!-- Chat & FOMO Reels -->
       <div class="live-chat-wrapper">
-        <!-- Chat Panel -->
         <div class="chat-panel">
           <header>Live Chat</header>
           <div class="chat-window" id="chat-window">
@@ -55,7 +94,6 @@
           </div>
         </div>
 
-        <!-- FOMO Reels Panel -->
         <div class="fomo-panel">
           <header>FOMO Reels</header>
           <div class="fomo-list">
@@ -65,6 +103,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -81,6 +120,15 @@
       </nav>
     </div>
   </footer>
+
+  <script>
+    // Hide spinner when iframe is ready
+    const videoFrame = document.getElementById('videoFrame');
+    const spinner = document.getElementById('spinner');
+    videoFrame.addEventListener('load', () => {
+      spinner.style.display = 'none';
+    });
+  </script>
 
 </body>
 </html>

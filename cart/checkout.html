@@ -30,25 +30,14 @@
     <div class="container">
         <h2>Checkout</h2>
 
-        <div class="category-grid" style="justify-content: center;">
-            <!-- Cart Item Summary -->
-            <div class="event-card" style="width: 600px;">
-                <img src="../images/jazznight.jpg" alt="Jazz Night Ticket">
-                <h3>Jazz Night @ Gardens</h3>
-                <p><strong>Price:</strong> R80</p>
-            </div>
-
-            <div class="event-card" style="width: 600px;">
-                <img src="../images/popstreet.jpg" alt="Street Pop-Up Session">
-                <h3>Street Pop-Up Session</h3>
-                <p><strong>Price:</strong> Free Entry</p>
-            </div>
+        <div class="category-grid" style="justify-content: center;" id="cart-items">
+            <!-- Cart Item Summary will be rendered dynamically -->
         </div>
 
         <!-- Billing Information Form -->
         <div class="checkout-form">
             <h3>Billing Information</h3>
-            <form action="#" method="post">
+            <form action="#" method="post" id="checkout-form">
                 <div class="form-group">
                     <label for="name">Full Name</label>
                     <input type="text" id="name" name="name" required placeholder="John Doe">
@@ -70,8 +59,7 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="btn-primary">Complete Purchase</button>
-
+                <button type="submit" class="btn-primary" id="complete-purchase">Complete Purchase</button>
                 <button type="button" class="btn-secondary" onclick="window.location.href='../cart/cart.html'">Back to Cart</button>
             </form>
         </div>
@@ -91,6 +79,54 @@
         </nav>
     </div>
 </footer>
+
+<script>
+// Get cart from localStorage and render the items dynamically
+function renderCheckout() {
+    const cartItems = getCart();
+    const cartContainer = document.getElementById('cart-items');
+    const checkoutButton = document.getElementById('complete-purchase');
+    let total = 0;
+
+    if (cartItems.length === 0) {
+        cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+        checkoutButton.disabled = true; // Disable checkout if cart is empty
+    } else {
+        cartContainer.innerHTML = ''; // Clear the cart container before rendering new items
+
+        cartItems.forEach(item => {
+            total += item.price;
+
+            const cartItemDiv = document.createElement('div');
+            cartItemDiv.classList.add('event-card');
+            cartItemDiv.style.width = '600px';
+            cartItemDiv.innerHTML = `
+                <img src="../images/${item.item.toLowerCase().replace(/ /g, '')}.jpg" alt="${item.item}">
+                <h3>${item.item}</h3>
+                <p><strong>Price:</strong> R${item.price}</p>
+            `;
+            cartContainer.appendChild(cartItemDiv);
+        });
+
+        const totalDiv = document.createElement('div');
+        totalDiv.classList.add('event-card');
+        totalDiv.style.width = '600px';
+        totalDiv.innerHTML = `
+            <h3>Total: R${total}</h3>
+        `;
+        cartContainer.appendChild(totalDiv);
+    }
+}
+
+// Call the renderCheckout function on page load
+document.addEventListener('DOMContentLoaded', renderCheckout);
+
+// Handle checkout form submission (for now, just an alert)
+document.getElementById('checkout-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    alert('Your order has been placed successfully!');
+});
+</script>
 
 </body>
 </html>
