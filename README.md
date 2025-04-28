@@ -1,52 +1,28 @@
-# WhatsOn 🎭🎶📍  
-Your real-time guide to South African live events, livestreams & jam spaces.
+# WhatsOn 🎭🎶📍
+Your real-time guide to South Africa's live events, livestreams, and jam spaces.
 
 ---
 
-## 📌 Overview  
-**WhatsOn** is an entertainment-focused eCommerce web platform that helps users:  
-1. Discover local events tailored to their interests and location  
-2. Stream live shows and catch short FOMO reels  
-3. Book venues or jam sessions directly online  
-
-Built to support South Africa’s creative scene and provide artists and venues with digital tools to promote, stream, and monetize their work.
+## 🌟 Features
+- **Discover Events:** Local shows, pop-ups, personalized suggestions.
+- **Stream Performances:** Live shows & FOMO highlight reels.
+- **Book JamSpaces:** Rehearsal/gig venue booking made easy.
 
 ---
 
-## 🌍 Features  
-### 🎤 Discover  
-- Event feed filtered by genre, time, location  
-- Real-time updates for pop-ups, jazz sessions, theatre shows  
-- User preference matching & personalized recommendations  
-
-### 📡 Stream  
-- Watch live or on-demand performances  
-- FOMO highlights (short clips to drive buzz)  
-- Optional tiered access to premium streams  
-
-### 🎶 JamSpace  
-- Book rehearsal/gig venues like The Blue Room  
-- Artist profiles with direct booking requests  
-- Calendar integration and booking confirmation system  
+## 🚀 Unique Selling Point
+**JamSpace Booking System:**  
+Custom tool for artists to find, book, and manage venues — built for South Africa’s creative scene.
 
 ---
 
-## 💡 Original Feature  
-**JamSpace Booking System**  
-Unlike generic CMS-based platforms, WhatsOn offers a custom booking tool for independent artists and venue hosts to collaborate and schedule gigs.
+## 🛠 Tech
+- HTML5, CSS3, JavaScript
+- (Optional) Firebase / Supabase / Node.js
 
 ---
 
-## 🛠️ Tech Stack  
-- HTML5, CSS3, JavaScript  
-- [Optional] Firebase / Supabase (for auth, data)  
-- [Optional] Bootstrap or Tailwind CSS  
-- [Optional] Node.js / Express (for backend if needed)
-
----
-
-## 🚀 How to Run  
-1. Clone the repo  
-   ```bash
-   git clone https://github.com/yourusername/whatson.git
-   cd whatson
+## ⚡ How to Run
+```bash
+git clone https://github.com/yourusername/whatson.git
+cd whatson
