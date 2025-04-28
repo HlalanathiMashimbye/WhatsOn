@@ -1,4 +1,4 @@
-# WhatsOn 🎭🎶📍
+# WhatsOn📍
 Your real-time guide to South Africa's live events, livestreams, and jam spaces.
 
 ---
@@ -25,4 +25,4 @@ Custom tool for artists to find, book, and manage venues — built for South Afr
 ## ⚡ How to Run
 ```bash
 git clone https://github.com/yourusername/whatson.git
-cd whatson
+cd WhatsOn
