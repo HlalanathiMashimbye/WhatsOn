@@ -316,4 +316,17 @@ body {
     .footer-nav ul li {
         margin-bottom: 10px;
     }
+
+    /* Ensure cart & other cards aren’t too wide on mobile */
+    .category-grid > div {
+        width: 80% !important;
+        max-width: none;
+    }
+
+    /* Adjust .checkout for mobile */
+    .checkout {
+        width: 80%;
+        max-width: none;
+        margin: 20px auto;
+    }
 }
