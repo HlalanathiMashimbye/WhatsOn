@@ -857,3 +857,91 @@ input:checked + .toggle-slider:before {
       gap: 20px;
     }
   }
+
+  /* Profile Picture Button Styles */
+.profile-picture {
+    position: relative;
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-picture img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .picture-button-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+  }
+  
+  .profile-picture:hover .picture-button-container {
+    opacity: 1;
+  }
+  
+  #change-picture-btn {
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transition: background-color 0.2s ease;
+  }
+  
+  #change-picture-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+
+  
+  /* Mobile responsive adjustments */
+  @media (max-width: 768px) {
+    .profile-picture img {
+      width: 120px;
+      height: 120px;
+    }
+    
+    .picture-button-container {
+      opacity: 1; /* Always visible on mobile */
+    }
+    
+    #change-picture-btn {
+      font-size: 6px;
+      padding: 6px 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .profile-picture img {
+      width: 100px;
+      height: 100px;
+    }
+    
+    #change-picture-btn {
+      font-size: 6px;
+      padding: 5px 8px;
+    }
+    
+    .button-icon {
+      width: 30%;
+      height: 30%;
+    }
+  }

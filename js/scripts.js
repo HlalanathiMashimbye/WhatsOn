@@ -510,8 +510,8 @@ function loadRankings() {
     rankingData.position + (rankingData.position === 1 ? 'st' : 
                            rankingData.position === 2 ? 'nd' : 
                            rankingData.position === 3 ? 'rd' : 'th');
-  document.querySelector('.ranking-stats .stat-number:nth-child(3)').textContent = rankingData.points;
-  document.querySelector('.ranking-stats .stat-number:nth-child(5)').textContent = rankingData.streak;
+  //document.querySelector('.ranking-stats .stat-number:nth-child(3)').textContent = rankingData.points;
+  //document.querySelector('.ranking-stats .stat-number:nth-child(5)').textContent = rankingData.streak;
   
   // Update the status message based on position
   const statusEl = document.querySelector('.ranking-status');
@@ -533,9 +533,9 @@ document.querySelector('.tab-btn[data-tab="rankings"]').addEventListener('click'
 
 // Add loadRankings() to the initial loads if you want it to load immediately
 // Initial loads
-loadBookings();
-loadCreatedEvents();
-loadRankings(); // Add this line
+//loadBookings();
+//loadCreatedEvents();
+loadRankings(); 
 
 
 
