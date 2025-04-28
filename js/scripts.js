@@ -1,535 +1,330 @@
-/**  
- * Toggles the mobile nav menu open/closed  
- */ 
+/**
+ * Toggles the mobile nav menu open/closed
+ */
 function toggleMenu() {
   const nav = document.querySelector('.nav');
   nav.classList.toggle('show');
 }
 
-// ========================= 
-// Cart Functionality 
-// ========================= 
+// =========================
+// Cart Functionality
+// =========================
 
 /**
- * Add an item to the shopping cart
+ * Add an event item to the shopping cart
  * @param {string} itemName - Name of the event/item
  */
 function addToCart(itemName) {
-  // Extract event details from the page
   const eventCard = document.querySelector('.event-card');
   if (!eventCard) return;
-  
-  // Get price from the page
-  const priceText = eventCard.querySelector('p strong:contains("Price:")').parentNode.textContent;
-  const priceMatch = priceText.match(/R(\d+)/);
-  const price = priceMatch ? parseInt(priceMatch[1]) : 100; // Default price if not found
-  
-  // Get image from the page
-  const imgElement = eventCard.querySelector('img');
-  const image = imgElement ? imgElement.src : "../images/event-placeholder.jpg";
-  
-  // Get venue from the page
-  const locationText = eventCard.querySelector('p strong:contains("Location:")').parentNode.textContent;
-  const locationMatch = locationText.match(/Location:\s*(.*?)(?:,|$)/);
-  const venue = locationMatch ? locationMatch[1].trim() : "Venue";
-  
-  // Get current cart from localStorage or initialize empty array
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  
-  // Check if item already exists in cart
-  const existingItemIndex = cart.findIndex(item => item.name === itemName);
-  
-  if (existingItemIndex > -1) {
-    // Item exists, increment quantity
-    cart[existingItemIndex].quantity += 1;
-  } else {
-    // Add new item to cart
-    cart.push({
-      name: itemName,
-      price: price,
-      quantity: 1,
-      image: image,
-      venue: venue
-    });
-  }
-  
-  // Save updated cart back to localStorage
-  localStorage.setItem('cart', JSON.stringify(cart));
-  
-  // Show confirmation message
-  showNotification(`${itemName} added to cart!`);
-  
-  // Update cart count in UI
-  updateCartCount();
-}
 
-/**
- * Fix for the CSS selector issue
- */
-Element.prototype.contains = function(text) {
-  return this.textContent.includes(text);
-};
-
-/**
- * Alternative implementation for addToCart that doesn't rely on CSS selectors
- * @param {string} itemName - Name of the event/item
- */
-function addToCart(itemName) {
-  // Extract event details from the page
-  const eventCard = document.querySelector('.event-card');
-  if (!eventCard) return;
-  
-  // Get all paragraphs in the event card
-  const paragraphs = eventCard.querySelectorAll('p');
-  
-  // Initialize variables with default values
-  let price = 100;
-  let venue = "Venue";
-  let image = "../images/event-placeholder.jpg";
-  
-  // Extract price and location from paragraphs
-  paragraphs.forEach(p => {
+  // Extract details
+  let price = 0, venue = "Venue", image = "../images/event-placeholder.jpg";
+  eventCard.querySelectorAll('p').forEach(p => {
     const text = p.textContent;
-    
-    // Check for price
     if (text.includes('Price:')) {
-      const priceMatch = text.match(/R(\d+)/);
-      if (priceMatch) price = parseInt(priceMatch[1]);
+      const m = text.match(/R(\d+)/);
+      if (m) price = parseInt(m[1], 10);
     }
-    
-    // Check for location/venue
     if (text.includes('Location:')) {
-      const locationParts = text.split(':')[1].split(',');
-      if (locationParts.length > 0) venue = locationParts[0].trim();
+      const parts = text.split(':')[1].split(',');
+      if (parts.length) venue = parts[0].trim();
     }
   });
-  
-  // Get image from the event card
-  const imgElement = eventCard.querySelector('img');
-  if (imgElement && imgElement.src) {
-    image = imgElement.src;
-  }
-  
-  // Get current cart from localStorage or initialize empty array
+  const imgEl = eventCard.querySelector('img');
+  if (imgEl && imgEl.src) image = imgEl.src;
+
+  // Update cart
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  
-  // Check if item already exists in cart
-  const existingItemIndex = cart.findIndex(item => item.name === itemName);
-  
-  if (existingItemIndex > -1) {
-    // Item exists, increment quantity
-    cart[existingItemIndex].quantity += 1;
+  const idx = cart.findIndex(i => i.name === itemName && i.type === 'event');
+  if (idx > -1) {
+    cart[idx].quantity += 1;
   } else {
-    // Add new item to cart with extracted details
-    cart.push({
-      name: itemName,
-      price: price,
-      quantity: 1,
-      image: image,
-      venue: venue
-    });
+    cart.push({ type:'event', name:itemName, price, quantity:1, image, venue });
   }
-  
-  // Save updated cart back to localStorage
   localStorage.setItem('cart', JSON.stringify(cart));
-  
-  // Show confirmation message
   showNotification(`${itemName} added to cart!`);
-  
-  // Update cart count in UI
   updateCartCount();
 }
 
 /**
- * Remove an item from the cart
- * @param {string} itemName - Name of item to remove
+ * Add a venue booking to the shopping cart
+ * @param {string} venueName
+ * @param {string} bookingDate - YYYY-MM-DD
+ * @param {number} hours
+ */
+function addVenueBooking(venueName, bookingDate, hours) {
+  const venueCard = document.querySelector('.venue-card');
+  if (!venueCard) return;
+
+  // Extract pricePerHour
+  let pricePerHour = 0;
+  venueCard.querySelectorAll('p').forEach(p => {
+    const text = p.textContent;
+    if (text.includes('Price:')) {
+      const m = text.match(/R(\d+)/);
+      if (m) pricePerHour = parseInt(m[1], 10);
+    }
+  });
+  if (!pricePerHour) pricePerHour = 200;
+  const totalPrice = pricePerHour * hours;
+
+  // Image
+  const imgEl = venueCard.querySelector('img');
+  const image = imgEl ? imgEl.src : "../images/venue-placeholder.jpg";
+
+  // Extract location
+  let location = "Venue Location";
+  venueCard.querySelectorAll('p').forEach(p => {
+    const text = p.textContent;
+    if (text.includes('Location:')) {
+      const m = text.match(/Location:\s*(.*?)(?:,|$)/);
+      if (m) location = m[1].trim();
+    }
+  });
+
+  // Format date
+  const formattedDate = new Date(bookingDate).toLocaleDateString('en-US', {
+    weekday:'long', year:'numeric', month:'long', day:'numeric'
+  });
+
+  // Cart logic
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const bookingId = `${venueName}-${bookingDate}-${hours}`;
+  if (cart.some(i => i.type==='venue' && i.bookingId===bookingId)) {
+    showNotification(`This booking already exists in your cart!`);
+    return;
+  }
+  cart.push({
+    type:'venue',
+    bookingId,
+    name: `${venueName} - ${hours}hr Booking`,
+    venueName,
+    bookingDate,
+    formattedDate,
+    hours,
+    price: totalPrice,
+    pricePerHour,
+    quantity: 1,
+    image,
+    location
+  });
+  localStorage.setItem('cart', JSON.stringify(cart));
+  showNotification(`${venueName} booked for ${formattedDate}!`);
+  updateCartCount();
+}
+
+/**
+ * Validate venue booking form then add to cart
+ */
+function validateBooking() {
+  const date = document.getElementById('booking-date').value;
+  const hours = parseInt(document.getElementById('hours').value, 10);
+  const nameEl = document.querySelector('.venue-card h3');
+  const name = nameEl ? nameEl.textContent : "Venue";
+
+  if (!date || !hours) {
+    alert('Please select a valid date and hours.');
+    return;
+  }
+  const d = new Date(date);
+  const today = new Date(); today.setHours(0,0,0,0);
+  if (d < today) {
+    alert('The selected date cannot be in the past.');
+    return;
+  }
+  addVenueBooking(name, date, hours);
+}
+
+/**
+ * Remove an event from the cart
+ * @param {string} itemName
  */
 function removeFromCart(itemName) {
-  // Get current cart
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  
-  // Filter out the item to remove
-  cart = cart.filter(item => item.name !== itemName);
-  
-  // Save updated cart
+  cart = cart.filter(i => !(i.type==='event' && i.name===itemName));
   localStorage.setItem('cart', JSON.stringify(cart));
-  
-  // Re-render the cart
   renderCart();
-  
-  // Update cart count
   updateCartCount();
 }
 
 /**
- * Change quantity of an item in the cart
- * @param {string} itemName - Name of the item
- * @param {number} newQuantity - New quantity value
+ * Remove a venue booking
+ * @param {string} bookingId
  */
-function updateQuantity(itemName, newQuantity) {
-  // Get current cart
+function removeVenueBooking(bookingId) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  
-  // Find the item
-  const itemIndex = cart.findIndex(item => item.name === itemName);
-  
-  if (itemIndex > -1) {
-    if (newQuantity <= 0) {
-      // Remove item if quantity is zero or negative
-      removeFromCart(itemName);
-    } else {
-      // Update quantity
-      cart[itemIndex].quantity = newQuantity;
+  cart = cart.filter(i => !(i.type==='venue' && i.bookingId===bookingId));
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+  updateCartCount();
+}
+
+/**
+ * Change quantity of an event item
+ * @param {string} itemName
+ * @param {number} newQty
+ */
+function updateQuantity(itemName, newQty) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const idx = cart.findIndex(i => i.type==='event' && i.name===itemName);
+  if (idx > -1) {
+    if (newQty < 1) removeFromCart(itemName);
+    else {
+      cart[idx].quantity = newQty;
       localStorage.setItem('cart', JSON.stringify(cart));
-      
-      // Re-render cart with updated quantities
       renderCart();
     }
   }
-  
-  // Update cart count
   updateCartCount();
 }
 
 /**
- * Calculate the total price of all items in cart
- * @returns {number} Total price
+ * Calculate the total price
+ * @returns {number}
  */
 function calculateTotal() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  return cart.reduce((sum, i) => sum + (i.type==='venue' ? i.price : i.price * i.quantity), 0);
 }
 
 /**
- * Display a notification message
- * @param {string} message - Message to display
+ * Display notification
  */
 function showNotification(message) {
-  // Create notification element if it doesn't exist
-  let notification = document.getElementById('cart-notification');
-  
-  if (!notification) {
-    notification = document.createElement('div');
-    notification.id = 'cart-notification';
-    notification.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 15px 20px;
-      background-color: #2ecc71;
-      color: white;
-      border-radius: 5px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.3s ease;
+  let n = document.getElementById('cart-notification');
+  if (!n) {
+    n = document.createElement('div');
+    n.id = 'cart-notification';
+    n.style.cssText = `
+      position:fixed;bottom:20px;right:20px;padding:15px 20px;
+      background:#2ecc71;color:#fff;border-radius:5px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.2);opacity:0;
+      transform:translateY(20px);transition:0.3s;
     `;
-    document.body.appendChild(notification);
+    document.body.appendChild(n);
   }
-  
-  // Set notification message
-  notification.textContent = message;
-  
-  // Show notification
-  setTimeout(() => {
-    notification.style.opacity = '1';
-    notification.style.transform = 'translateY(0)';
-  }, 10);
-  
-  // Hide notification after delay
-  setTimeout(() => {
-    notification.style.opacity = '0';
-    notification.style.transform = 'translateY(20px)';
-  }, 3000);
+  n.textContent = message;
+  setTimeout(() => { n.style.opacity='1'; n.style.transform='translateY(0)'; }, 10);
+  setTimeout(() => { n.style.opacity='0'; n.style.transform='translateY(20px)'; }, 3000);
 }
 
 /**
- * Update the cart count badge in the navigation
+ * Update cart count badge
  */
 function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const itemCount = cart.reduce((count, item) => count + item.quantity, 0);
-  
-  // Find or create cart count element
-  let cartCountBadge = document.querySelector('.cart-count');
-  
-  if (!cartCountBadge) {
-    // Find cart link
-    const cartLinks = document.querySelectorAll('a[href*="cart.html"]');
-    
-    cartLinks.forEach(link => {
-      cartCountBadge = document.createElement('span');
-      cartCountBadge.className = 'cart-count';
-      cartCountBadge.style.cssText = `
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #e74c3c;
-        color: white;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        font-size: 12px;
-        position: relative;
-        top: -10px;
-        left: 2px;
-        font-weight: bold;
+  const count = cart.reduce((c,i) => c + (i.quantity), 0);
+  let badge = document.querySelector('.cart-count');
+  if (!badge) {
+    document.querySelectorAll('a[href*="cart.html"]').forEach(link => {
+      badge = document.createElement('span');
+      badge.className = 'cart-count';
+      badge.style.cssText = `
+        display:inline-flex;align-items:center;justify-content:center;
+        background:#e74c3c;color:#fff;border-radius:50%;
+        width:18px;height:18px;font-size:12px;
+        position:relative;top:-10px;left:2px;font-weight:bold;
       `;
-      link.appendChild(cartCountBadge);
+      link.appendChild(badge);
     });
   }
-  
-  // Update the count
-  if (cartCountBadge) {
-    if (itemCount > 0) {
-      cartCountBadge.textContent = itemCount;
-      cartCountBadge.style.display = 'inline-flex';
-    } else {
-      cartCountBadge.style.display = 'none';
-    }
+  if (badge) {
+    badge.textContent = count;
+    badge.style.display = count > 0 ? 'inline-flex' : 'none';
   }
 }
 
 /**
- * Render the cart items on the cart page
+ * Render entire cart (events + venues)
  */
 function renderCart() {
-  const cartGrid = document.querySelector('.category-grid');
-  const checkoutSection = document.querySelector('.checkout');
-  
-  if (!cartGrid || !checkoutSection) return;
-  
-  // Get cart data
+  const grid = document.querySelector('.category-grid');
+  const checkout = document.querySelector('.checkout');
+  if (!grid || !checkout) return;
+
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  
-  // Clear current content
-  cartGrid.innerHTML = '';
-  
-  if (cart.length === 0) {
-    // Cart is empty
-    cartGrid.innerHTML = `
+  grid.innerHTML = '';
+
+  if (!cart.length) {
+    grid.innerHTML = `
       <div class="empty-cart">
         <h3>Your cart is empty</h3>
-        <p>Explore events to add them to your cart!</p>
-        <a href="../eventfind/events.html" class="btn-primary">Browse Events</a>
-      </div>
-    `;
-    checkoutSection.innerHTML = '';
+        <p>Explore events or venues to add them!</p>
+        <div class="empty-cart-buttons">
+          <a href="../eventfind/events.html" class="btn-primary">Browse Events</a>
+          <a href="../venueconnect/venues.html" class="btn-secondary">Browse Venues</a>
+        </div>
+      </div>`;
+    checkout.innerHTML = '';
     return;
   }
-  
-  // Render each cart item
+
   cart.forEach(item => {
-    const itemElement = document.createElement('div');
-    itemElement.className = 'cart-item';
-    itemElement.innerHTML = `
-      <div class="cart-item-image">
-        <img src="${item.image}" alt="${item.name}">
-      </div>
-      <div class="cart-item-details">
-        <h3>${item.name}</h3>
-        <p>Venue: ${item.venue}</p>
-        <p>Price: R${item.price}</p>
-        <div class="quantity-controls">
-          <button class="quantity-btn minus" onclick="updateQuantity('${item.name}', ${item.quantity - 1})">-</button>
-          <span class="quantity">${item.quantity}</span>
-          <button class="quantity-btn plus" onclick="updateQuantity('${item.name}', ${item.quantity + 1})">+</button>
-        </div>
-      </div>
-      <div class="cart-item-subtotal">
-        <p>R${item.price * item.quantity}</p>
-        <button class="remove-btn" onclick="removeFromCart('${item.name}')">Remove</button>
-      </div>
-    `;
-    cartGrid.appendChild(itemElement);
+    if (item.type === 'venue') renderVenueBookingItem(item, grid);
+    else renderEventItem(item, grid);
   });
-  
-  // Add styles for cart items
-  const style = document.createElement('style');
-  style.textContent = `
-    .cart-item {
-      display: flex;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 15px;
-      background-color: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      width: 100%;
-    }
-    
-    .cart-item-image {
-      width: 100px;
-      height: 100px;
-      overflow: hidden;
-      border-radius: 5px;
-      margin-right: 15px;
-    }
-    
-    .cart-item-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .cart-item-details {
-      flex-grow: 1;
-    }
-    
-    .cart-item-details h3 {
-      margin-top: 0;
-      color: #333;
-    }
-    
-    .quantity-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    
-    .quantity-btn {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: 1px solid #ddd;
-      background-color: #f5f5f5;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .quantity {
-      font-weight: bold;
-    }
-    
-    .cart-item-subtotal {
-      text-align: right;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: flex-end;
-    }
-    
-    .cart-item-subtotal p {
-      font-weight: bold;
-      font-size: 18px;
-      margin: 0;
-    }
-    
-    .remove-btn {
-      background-color: #ff6b6b;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    
-    .empty-cart {
-      text-align: center;
-      padding: 40px;
-      width: 100%;
-    }
-    
-    @media (max-width: 768px) {
-      .cart-item {
-        flex-direction: column;
-      }
-      
-      .cart-item-image {
-        width: 100%;
-        height: 150px;
-        margin-right: 0;
-        margin-bottom: 15px;
-      }
-      
-      .cart-item-subtotal {
-        align-items: flex-start;
-        margin-top: 10px;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-  
-  // Calculate and display total
+
+  addCartItemStyles();
+  addCheckoutStyles();
+
   const total = calculateTotal();
-  checkoutSection.innerHTML = `
+  checkout.innerHTML = `
     <div class="cart-summary">
       <h3>Order Summary</h3>
-      <div class="summary-row">
-        <span>Subtotal:</span>
-        <span>R${total}</span>
-      </div>
-      <div class="summary-row">
-        <span>VAT (15%):</span>
-        <span>R${(total * 0.15).toFixed(2)}</span>
-      </div>
-      <div class="summary-row total">
-        <span>Total:</span>
-        <span>R${(total * 1.15).toFixed(2)}</span>
-      </div>
+      <div class="summary-row"><span>Subtotal:</span><span>R${total}</span></div>
+      <div class="summary-row"><span>VAT (15%):</span><span>R${(total*0.15).toFixed(2)}</span></div>
+      <div class="summary-row total"><span>Total:</span><span>R${(total*1.15).toFixed(2)}</span></div>
       <button class="checkout-btn" onclick="processCheckout()">Proceed to Checkout</button>
       <button class="clear-cart-btn" onclick="clearCart()">Clear Cart</button>
+    </div>`;
+}
+
+/**
+ * Render a venue booking item
+ */
+function renderVenueBookingItem(item, grid) {
+  const el = document.createElement('div');
+  el.className = 'cart-item venue-booking';
+  el.innerHTML = `
+    <div class="cart-item-image"><img src="${item.image}" alt="${item.venueName}"></div>
+    <div class="cart-item-details">
+      <h3>${item.venueName}</h3>
+      <p><strong>Booking:</strong> ${item.formattedDate}</p>
+      <p><strong>Duration:</strong> ${item.hours} hour${item.hours > 1 ? 's' : ''}</p>
+      <p><strong>Location:</strong> ${item.location}</p>
+      <p><strong>Rate:</strong> R${item.pricePerHour}/hour</p>
     </div>
-  `;
-  
-  // Add styles for checkout section
-  const checkoutStyle = document.createElement('style');
-  checkoutStyle.textContent = `
-    .cart-summary {
-      background-color: #f9f9f9;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      margin-top: 20px;
-    }
-    
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-    }
-    
-    .summary-row.total {
-      font-weight: bold;
-      font-size: 18px;
-      border-top: 2px solid #ddd;
-      border-bottom: none;
-      padding-top: 15px;
-    }
-    
-    .checkout-btn {
-      background-color: #2ecc71;
-      color: white;
-      border: none;
-      padding: 12px;
-      width: 100%;
-      border-radius: 6px;
-      margin-top: 15px;
-      font-size: 16px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    
-    .clear-cart-btn {
-      background-color: #7f8c8d;
-      color: white;
-      border: none;
-      padding: 10px;
-      width: 100%;
-      border-radius: 6px;
-      margin-top: 10px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-  `;
-  document.head.appendChild(checkoutStyle);
+    <div class="cart-item-subtotal">
+      <p>R${item.price}</p>
+      <button class="remove-btn" onclick="removeVenueBooking('${item.bookingId}')">Cancel Booking</button>
+    </div>`;
+  grid.appendChild(el);
+}
+
+/**
+ * Render an event item
+ */
+function renderEventItem(item, grid) {
+  const el = document.createElement('div');
+  el.className = 'cart-item event';
+  el.innerHTML = `
+    <div class="cart-item-image"><img src="${item.image}" alt="${item.name}"></div>
+    <div class="cart-item-details">
+      <h3>${item.name}</h3>
+      <p>Venue: ${item.venue}</p>
+      <p>Price: R${item.price}</p>
+      <div class="quantity-controls">
+        <button class="quantity-btn minus" onclick="updateQuantity('${item.name}', ${item.quantity-1})">-</button>
+        <span class="quantity">${item.quantity}</span>
+        <button class="quantity-btn plus" onclick="updateQuantity('${item.name}', ${item.quantity+1})">+</button>
+      </div>
+    </div>
+    <div class="cart-item-subtotal">
+      <p>R${item.price * item.quantity}</p>
+      <button class="remove-btn" onclick="removeFromCart('${item.name}')">Remove</button>
+    </div>`;
+  grid.appendChild(el);
 }
 
 /**
@@ -545,155 +340,149 @@ function clearCart() {
 }
 
 /**
- * Handle checkout process
+ * Simulate checkout
  */
 function processCheckout() {
-  // This would typically connect to a payment gateway
-  // For now, we'll just simulate the process
   alert('Proceeding to payment gateway...');
-  
-  // Here you would redirect to a payment page or show a payment form
-  // For demo purposes, we'll just clear the cart
   localStorage.removeItem('cart');
   renderCart();
   updateCartCount();
   showNotification('Thank you for your purchase!');
 }
 
-// ========================= 
-// Location Handling 
-// ========================= 
+/**
+ * Polyfill for CSS :contains() (not used in venue logic anymore)
+ */
+Element.prototype.contains = function(text) {
+  return this.textContent.includes(text);
+};
+
+// =========================
+// Styles Injection
+// =========================
+
+function addCartItemStyles() {
+  if (document.getElementById('cart-item-styles')) return;
+  const s = document.createElement('style');
+  s.id = 'cart-item-styles';
+  s.textContent = `
+    .cart-item{display:flex;border:1px solid #ddd;border-radius:8px;
+     padding:15px;margin-bottom:15px;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.1);width:100%}
+    .cart-item.event{border-left:4px solid #2ecc71}
+    .cart-item.venue-booking{border-left:4px solid #3498db}
+    .cart-item-image{width:100px;height:100px;overflow:hidden;border-radius:5px;margin-right:15px}
+    .cart-item-image img{width:100%;height:100%;object-fit:cover}
+    .cart-item-details{flex-grow:1;color:#333}
+    .cart-item-details h3{margin-top:0;color:#333}
+    .quantity-controls{display:flex;align-items:center;gap:10px;margin-top:10px}
+    .quantity-btn{width:30px;height:30px;border-radius:50%;border:1px solid #ddd;
+      background:#f5f5f5;font-size:16px;cursor:pointer;display:flex;
+      align-items:center;justify-content:center}
+    .quantity{font-weight:bold}
+    .cart-item-subtotal{display:flex;flex-direction:column;justify-content:space-between;
+      align-items:flex-end;text-align:right}
+    .cart-item-subtotal p{font-weight:bold;font-size:18px;margin:0;color:#333}
+    .remove-btn{background:#ff6b6b;color:#fff;border:none;padding:8px 12px;
+      border-radius:4px;cursor:pointer;margin-top:10px}
+    .empty-cart{text-align:center;padding:40px;width:100%}
+    .empty-cart-buttons{display:flex;justify-content:center;gap:10px;margin-top:20px}
+    @media(max-width:768px){.cart-item{flex-direction:column}
+      .cart-item-image{width:100%;height:150px;margin:0 0 15px}
+      .cart-item-subtotal{align-items:flex-start;margin-top:10px}}`;
+  document.head.appendChild(s);
+}
+
+function addCheckoutStyles() {
+  if (document.getElementById('checkout-styles')) return;
+  const s = document.createElement('style');
+  s.id = 'checkout-styles';
+  s.textContent = `
+    .cart-summary{background:#f9f9f9;border-radius:8px;padding:20px;
+      box-shadow:0 2px 5px rgba(0,0,0,0.1);margin-top:20px;color:#333}
+    .summary-row{display:flex;justify-content:space-between;padding:10px 0;
+      border-bottom:1px solid #eee}
+    .summary-row.total{font-weight:bold;font-size:18px;
+      border-top:2px solid #ddd;border-bottom:none;padding-top:15px}
+    .checkout-btn{background:#2ecc71;color:#fff;border:none;padding:12px;
+      width:100%;border-radius:6px;margin-top:15px;font-size:16px;
+      cursor:pointer;font-weight:bold}
+    .clear-cart-btn{background:#7f8c8d;color:#fff;border:none;padding:10px;
+      width:100%;border-radius:6px;margin-top:10px;font-size:14px;
+      cursor:pointer}`;
+  document.head.appendChild(s);
+}
+
+// =========================
+// Location Handling
+// =========================
 
 function getLocation() {
-    const locationHeading = document.getElementById('location-heading');
-    const locationText = document.getElementById('location-text');
-    const loadingSpinner = document.getElementById('loading-spinner');
-    
-    if (!locationHeading) return;
-    
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-        if (locationText) locationText.textContent = "Finding events near you... 🎷";
-        if (loadingSpinner) loadingSpinner.style.display = 'inline-block';
-    } else {
-        if (locationText) locationText.textContent = "Geolocation is not supported by your browser.";
-        if (loadingSpinner) loadingSpinner.style.display = 'none';
-    }
+  const heading = document.getElementById('location-heading');
+  const text = document.getElementById('location-text');
+  const spinner = document.getElementById('loading-spinner');
+  if (!heading) return;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+    if (text) text.textContent = "Finding events near you... 🎷";
+    if (spinner) spinner.style.display = 'inline-block';
+  } else {
+    if (text) text.textContent = "Geolocation not supported.";
+    if (spinner) spinner.style.display = 'none';
+  }
 }
 
-function showPosition(position) {
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
-    
-    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
-        .then(response => response.json())
-        .then(data => {
-            // Get simplified location details
-            const suburb = data.address.suburb || data.address.neighbourhood || "";
-            const city = data.address.city || data.address.town || data.address.village || "your area";
-            
-            // Create simplified location string (just suburb and city)
-            let simpleLocation = "";
-            
-            if (suburb) simpleLocation += `${suburb}, `;
-            simpleLocation += city;
-            
-            const locationText = document.getElementById('location-text');
-            const loadingSpinner = document.getElementById('loading-spinner');
-            
-            if (locationText) {
-                locationText.textContent = `These are the events around ${simpleLocation}! 🎷`;
-            }
-            if (loadingSpinner) {
-                loadingSpinner.style.display = 'none';
-            }
-            
-            // Store the location in session storage
-            sessionStorage.setItem('userLocation', JSON.stringify({
-                lat: lat,
-                lon: lon,
-                simpleLocation: simpleLocation
-            }));
-        })
-        .catch(error => {
-            console.error(error);
-            const locationText = document.getElementById('location-text');
-            const loadingSpinner = document.getElementById('loading-spinner');
-            
-            if (locationText) {
-                locationText.textContent = "Unable to fetch location.";
-            }
-            if (loadingSpinner) {
-                loadingSpinner.style.display = 'none';
-            }
-        });
+function showPosition(pos) {
+  const { latitude:lat, longitude:lon } = pos.coords;
+  fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+    .then(r => r.json()).then(data => {
+      const suburb = data.address.suburb||data.address.neighbourhood||"";
+      const city = data.address.city||data.address.town||data.address.village||"your area";
+      const loc = suburb? `${suburb}, ${city}`: city;
+      const text = document.getElementById('location-text');
+      const spinner = document.getElementById('loading-spinner');
+      if (text) text.textContent = `These are the events around ${loc}! 🎷`;
+      if (spinner) spinner.style.display = 'none';
+      sessionStorage.setItem('userLocation', JSON.stringify({ lat, lon, simpleLocation:loc }));
+    }).catch(() => {
+      const text = document.getElementById('location-text');
+      const spinner = document.getElementById('loading-spinner');
+      if (text) text.textContent = "Unable to fetch location.";
+      if (spinner) spinner.style.display = 'none';
+    });
 }
 
-function showError(error) {
-    const locationText = document.getElementById('location-text');
-    const loadingSpinner = document.getElementById('loading-spinner');
-    
-    if (locationText) locationText.textContent = "Unable to fetch location.";
-    if (loadingSpinner) loadingSpinner.style.display = 'none';
-    
-    switch (error.code) {
-        case error.PERMISSION_DENIED:
-            alert("User denied the request for Geolocation.");
-            break;
-        case error.POSITION_UNAVAILABLE:
-            alert("Location information is unavailable.");
-            break;
-        case error.TIMEOUT:
-            alert("The request to get user location timed out.");
-            break;
-        case error.UNKNOWN_ERROR:
-            alert("An unknown error occurred.");
-            break;
-    }
+function showError(err) {
+  const text = document.getElementById('location-text');
+  const spinner = document.getElementById('loading-spinner');
+  if (text) text.textContent = "Unable to fetch location.";
+  if (spinner) spinner.style.display = 'none';
+  switch(err.code) {
+    case err.PERMISSION_DENIED: alert("User denied request for Geolocation."); break;
+    case err.POSITION_UNAVAILABLE: alert("Location info is unavailable."); break;
+    case err.TIMEOUT: alert("Request to get location timed out."); break;
+    default: alert("An unknown error occurred."); break;
+  }
 }
 
-// Function to refresh location
 function refreshLocation() {
-    const refreshButton = document.getElementById('refresh-location');
-    if (refreshButton) {
-        refreshButton.textContent = "Refreshing...";
-        refreshButton.disabled = true;
-    }
-    
-    // Get fresh location
-    getLocation();
-    
-    // Reset button after a short delay
-    setTimeout(() => {
-        if (refreshButton) {
-            refreshButton.textContent = "Refresh Location";
-            refreshButton.disabled = false;
-        }
-    }, 2000);
+  const btn = document.getElementById('refresh-location');
+  if (btn) { btn.textContent="Refreshing..."; btn.disabled=true; }
+  getLocation();
+  setTimeout(() => {
+    if (btn) { btn.textContent="Refresh Location"; btn.disabled=false; }
+  }, 2000);
 }
 
-// ========================= 
-// Initialization 
-// ========================= 
+// =========================
+// Initialization
+// =========================
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Initialize cart functionality
-    if (document.querySelector('.category-grid') && document.querySelector('.checkout')) {
-        renderCart();
-    }
-    
-    // Initialize location functionality
-    if (document.getElementById('location-heading')) {
-        getLocation();
-    }
-    
-    // Show Refresh Location Button after page loads
-    const refreshButton = document.getElementById('refresh-location');
-    if (refreshButton) {
-        refreshButton.style.display = 'inline-block';
-        refreshButton.addEventListener('click', refreshLocation);
-    }
-    
-    // Update cart count badge on all pages
-    updateCartCount();
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.querySelector('.category-grid') && document.querySelector('.checkout')) renderCart();
+  if (document.getElementById('location-heading')) getLocation();
+  const btn = document.getElementById('refresh-location');
+  if (btn) { btn.style.display='inline-block'; btn.addEventListener('click', refreshLocation); }
+  updateCartCount();
 });
+
+

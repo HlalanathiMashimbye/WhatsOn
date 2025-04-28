@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WhatsOn | The Blue Room</title>
   <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/venue-detail.css"> <!-- Venue-specific styles -->
+  <link rel="stylesheet" href="../css/venue-detail.css">
 
+  <!-- Shared scripts include cart & booking logic -->
   <script src="../js/scripts.js" defer></script>
 
   <style>
@@ -48,19 +49,19 @@
 
         <div class="venue-card">
           <img src="../images/blueroom.jpg" alt="The Blue Room">
-          <h3>Venue Details</h3>
+          <h3>The Blue Room</h3>
           <p><strong>Capacity:</strong> 50 people</p>
           <p><strong>Price:</strong> R200 per hour</p>
           <p><strong>Location:</strong> 123 Jazz St, Cape Town</p>
           <p><strong>Amenities:</strong> Sound system, stage lighting, bar service</p>
-          <p><strong>Description:</strong>  
+          <p><strong>Description:</strong>
             The Blue Room is an intimate live music venue perfect for jazz ensembles, acoustic sets, and small rehearsals. State-of-the-art sound and lighting ensure a stunning performance.
           </p>
 
           <!-- Booking Controls -->
           <div style="margin-top: 20px;">
             <label for="booking-date">Select Date:</label>
-            <input type="date" id="booking-date" name="booking-date" min="" required>
+            <input type="date" id="booking-date" name="booking-date" required>
           </div>
 
           <div style="margin-top: 20px;">
@@ -73,7 +74,7 @@
           </div>
 
           <div style="margin-top: 20px;">
-            <button class="btn-primary" onclick="validateBooking()">Book Now</button>
+            <button id="book-now-btn" class="btn-primary" type="button">Book Now</button>
             <a href="../cart/cart.html" class="btn-secondary" style="margin-left: 10px;">Go to Cart</a>
           </div>
         </div>
@@ -96,41 +97,21 @@
     </div>
   </footer>
 
+  <!-- Inline setup: enforce min-date & bind booking -->
   <script>
-    // Set the min date to today for the date picker
-    document.getElementById('booking-date').setAttribute('min', new Date().toISOString().split('T')[0]);
-
-    // Validate the booking date and hour selection
-    function validateBooking() {
-      const bookingDate = document.getElementById('booking-date').value;
-      const hours = document.getElementById('hours').value;
-
-      // Check if the user has selected a date and hours
-      if (!bookingDate || !hours) {
-        alert('Please select a valid date and hours.');
-        return;
-      }
-
-      // Add item to the cart with validation
-      const date = new Date(bookingDate);
-      const currentDate = new Date();
-
-      // If the selected date is in the past
-      if (date < currentDate) {
-        alert('The selected date cannot be in the past. Please choose a valid date.');
-        return;
-      }
-
-      addToCart(`The Blue Room - ${hours}hr booking on ${bookingDate}`);
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Set the date picker min to today
+    const dateInput = document.getElementById('booking-date');
+    if (dateInput) {
+      dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
     }
 
-    // Add booking to cart
-    function addToCart(item) {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push(item);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert(item + " has been added to your cart!");
+    // 2. Bind the "Book Now" button to your validation logic
+    const btn = document.getElementById('book-now-btn');
+    if (btn) {
+      btn.addEventListener('click', validateBooking);
     }
+  });
   </script>
 
 </body>
