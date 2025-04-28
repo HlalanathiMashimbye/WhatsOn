@@ -483,6 +483,63 @@ document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('refresh-location');
   if (btn) { btn.style.display='inline-block'; btn.addEventListener('click', refreshLocation); }
   updateCartCount();
+
+// Rankings tab functionality 
+function loadRankings() {
+  // In a real app, this data would come from an API
+  const rankingData = {
+    position: 1,
+    points: 23,
+    streak: 4,
+    leaderboard: [
+      { rank: 1, name: "Hlalanathi Mashimbye", points: 23, isCurrentUser: true },
+      { rank: 2, name: "Thabo Johnson", points: 19, isCurrentUser: false },
+      { rank: 3, name: "Lerato Dlamini", points: 17, isCurrentUser: false },
+      { rank: 4, name: "Nomsa Khumalo", points: 12, isCurrentUser: false },
+      { rank: 5, name: "Sipho Tshabalala", points: 8, isCurrentUser: false }
+    ],
+    rewards: [
+      { name: "Free Ticket (R200 value)", icon: "🎫", progress: 80, text: "4/5 week streak" },
+      { name: "Event Master Badge", icon: "🏅", progress: 40, text: "8/20 events" },
+      { name: "VIP Access Pass", icon: "🎭", progress: 60, text: "30/50 points" }
+    ]
+  };
+  
+  // Update the stats
+  document.querySelector('.ranking-stats .stat-number:nth-child(1)').textContent = 
+    rankingData.position + (rankingData.position === 1 ? 'st' : 
+                           rankingData.position === 2 ? 'nd' : 
+                           rankingData.position === 3 ? 'rd' : 'th');
+  document.querySelector('.ranking-stats .stat-number:nth-child(3)').textContent = rankingData.points;
+  document.querySelector('.ranking-stats .stat-number:nth-child(5)').textContent = rankingData.streak;
+  
+  // Update the status message based on position
+  const statusEl = document.querySelector('.ranking-status');
+  if (rankingData.position === 1) {
+    statusEl.classList.add('success');
+    statusEl.querySelector('p').textContent = 'YOU ARE CURRENTLY IN THE LEAD AMONG YOUR FRIENDS. KEEP THE STREAK UP TO UNLOCK A BADGE AND A FREE TICKET WORTH R200!';
+  } else {
+    statusEl.classList.remove('success');
+    statusEl.querySelector('p').textContent = `You're currently ${rankingData.position}${
+      rankingData.position === 2 ? 'nd' : 
+      rankingData.position === 3 ? 'rd' : 'th'} among your friends. Keep attending events to climb the ranks!`;
+  }
+  
+  // The rest of the ranking data would be updated here in a real app
+}
+
+// Call loadRankings when the rankings tab is shown
+document.querySelector('.tab-btn[data-tab="rankings"]').addEventListener('click', loadRankings);
+
+// Add loadRankings() to the initial loads if you want it to load immediately
+// Initial loads
+loadBookings();
+loadCreatedEvents();
+loadRankings(); // Add this line
+
+
+
+
 });
 
 

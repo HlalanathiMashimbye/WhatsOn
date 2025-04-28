@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>WhatsOn | Profile</title>
-  <link rel="stylesheet" href="../css/styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsOn - My Profile</title>
+  <link rel="stylesheet" href="../css/profile.css">
+  <link rel="stylesheet" href="../css/styles.css">
   <script src="../js/scripts.js" defer></script>
+
+
 </head>
 <body>
-
   <!-- Header -->
   <header class="header">
     <div class="container">
@@ -20,85 +22,297 @@
           <li><a href="../index.html">Home</a></li>
           <li><a href="../eventfind/events.html">EventFind</a></li>
           <li><a href="../livestream/streams.html">LiveStream</a></li>
-          <li><a href="../venueconnect/venues.html">VenueConnect</a></li>
-          <li><a href="profile.html" class="active">Profile</a></li>
+          <li><a href="../venueconnect/venues.html" >VenueConnect</a></li>
+          <li><a href="../profile/profile.html" >Profile</a></li>
           <li><a href="../cart/cart.html">Cart</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <!-- Profile Section -->
-  <section class="profile-section">
-    <div class="container">
-      <h2>Welcome, User!</h2>
-
-      <!-- User Info -->
-      <div class="user-info">
-        <h3>Your Profile</h3>
-        <p><strong>Name:</strong> John Doe</p>
-        <p><strong>Email:</strong> johndoe@example.com</p>
-        <p><strong>Phone:</strong> +27 123 456 789</p>
+  <main>
+    <section class="profile-header">
+      <div class="profile-picture" id="profile-picture">
+        <img src="../images/default-profile.jpg" alt="Profile Picture" id="profile-image">
+        <button id="change-picture-btn">Change Picture</button>
+        <input type="file" id="picture-upload" accept="image/*" style="display:none">
       </div>
-
-      <!-- Booking History Section -->
-      <div class="booking-history">
-        <h3>Your Bookings</h3>
-
-        <div class="category-grid">
-          <!-- Booking 1 -->
-          <div class="event-card">
-            <img src="../images/blueroom.jpg" alt="The Blue Room">
-            <h4>The Blue Room</h4>
-            <p><strong>Date:</strong> 2025-05-15</p>
-            <p><strong>Time:</strong> 7:00 PM</p>
-            <p><strong>Hours:</strong> 2 hrs</p>
-            <p><strong>Status:</strong> Confirmed</p>
-            <a href="../cart/cart.html" class="btn-secondary">View Booking</a>
+      
+      <div class="profile-info">
+        <h1 id="profile-name">Hlalanathi Mashimbye</h1>
+        <div class="user-stats">
+          <div class="stat">
+            <span class="count" id="events-count">12</span>
+            <span class="label">Events Attended</span>
           </div>
-
-          <!-- Booking 2 -->
-          <div class="event-card">
-            <img src="../images/warehouse.jpg" alt="City Warehouse">
-            <h4>City Warehouse</h4>
-            <p><strong>Date:</strong> 2025-06-10</p>
-            <p><strong>Time:</strong> 6:00 PM</p>
-            <p><strong>Hours:</strong> 3 hrs</p>
-            <p><strong>Status:</strong> Pending</p>
-            <a href="../cart/cart.html" class="btn-secondary">View Booking</a>
+          <div class="stat">
+            <span class="count" id="venues-count">5</span>
+            <span class="label">Venues Booked</span>
           </div>
+        </div>
+      </div>
+    </section>
 
+    <section class="profile-tabs">
+      <div class="tab-buttons">
+        <button class="tab-btn" data-tab="rankings">Rankings</button>
+        <button class="tab-btn active" data-tab="personal-info">Personal Info</button>
+        <button class="tab-btn" data-tab="my-bookings">My Bookings</button>
+        <button class="tab-btn" data-tab="preferences">Preferences</button>
+        <button class="tab-btn" data-tab="my-events">My Events</button>
+      </div>
+      
+      <!-- Rankings Tab -->
+      <div class="tab-pane" id="rankings">
+        <div class="rankings-container">
+          <div class="ranking-header">
+            <h3>Friend Rankings</h3>
+            <div class="ranking-status success">
+              <span class="status-icon">🏆</span>
+              <p>YOU ARE CURRENTLY IN THE LEAD AMONG YOUR FRIENDS. KEEP THE STREAK UP TO UNLOCK A BADGE AND A FREE TICKET WORTH R200!</p>
+            </div>
+          </div>
+          
+          <div class="ranking-stats">
+            <div class="stat-card">
+              <span class="stat-number">1st</span>
+              <span class="stat-label">Position</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">23</span>
+              <span class="stat-label">Total Points</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">4</span>
+              <span class="stat-label">Week Streak</span>
+            </div>
+          </div>
+          
+          <div class="leaderboard">
+            <h4>Leaderboard</h4>
+            <div class="leaderboard-list">
+              <div class="leaderboard-item current-user">
+                <div class="rank">1</div>
+                <div class="user-info">
+                  <img src="../images/default-profile.jpg" alt="Your profile" class="leaderboard-avatar">
+                  <span class="username">Hlalanathi Mashimbye</span>
+                </div>
+                <div class="points">23 pts</div>
+              </div>
+              <div class="leaderboard-item">
+                <div class="rank">2</div>
+                <div class="user-info">
+                  <img src="../images/friend1.jpg" alt="Friend profile" class="leaderboard-avatar">
+                  <span class="username">Thabo Johnson</span>
+                </div>
+                <div class="points">19 pts</div>
+              </div>
+              <div class="leaderboard-item">
+                <div class="rank">3</div>
+                <div class="user-info">
+                  <img src="../images/friend2.jpg" alt="Friend profile" class="leaderboard-avatar">
+                  <span class="username">Lerato Dlamini</span>
+                </div>
+                <div class="points">17 pts</div>
+              </div>
+              <div class="leaderboard-item">
+                <div class="rank">4</div>
+                <div class="user-info">
+                  <img src="../images/friend3.jpg" alt="Friend profile" class="leaderboard-avatar">
+                  <span class="username">Nomsa Khumalo</span>
+                </div>
+                <div class="points">12 pts</div>
+              </div>
+              <div class="leaderboard-item">
+                <div class="rank">5</div>
+                <div class="user-info">
+                  <img src="../images/friend4.jpg" alt="Friend profile" class="leaderboard-avatar">
+                  <span class="username">Sipho Tshabalala</span>
+                </div>
+                <div class="points">8 pts</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="rewards-section">
+            <h4>Upcoming Rewards</h4>
+            <div class="reward-items">
+              <div class="reward-item">
+                <div class="reward-icon">🎫</div>
+                <div class="reward-info">
+                  <h5>Free Ticket (R200 value)</h5>
+                  <div class="progress-container">
+                    <div class="progress-bar" style="width: 80%"></div>
+                  </div>
+                  <span class="progress-text">4/5 week streak</span>
+                </div>
+              </div>
+              <div class="reward-item">
+                <div class="reward-icon">🏅</div>
+                <div class="reward-info">
+                  <h5>Event Master Badge</h5>
+                  <div class="progress-container">
+                    <div class="progress-bar" style="width: 40%"></div>
+                  </div>
+                  <span class="progress-text">8/20 events</span>
+                </div>
+              </div>
+              <div class="reward-item">
+                <div class="reward-icon">🎭</div>
+                <div class="reward-info">
+                  <h5>VIP Access Pass</h5>
+                  <div class="progress-container">
+                    <div class="progress-bar" style="width: 60%"></div>
+                  </div>
+                  <span class="progress-text">30/50 points</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Wishlist Section -->
-      <div class="wishlist">
-        <h3>Your Wishlist</h3>
-
-        <div class="category-grid">
-          <!-- Wishlist Item 1 -->
-          <div class="event-card">
-            <img src="../images/rooftop.jpg" alt="Sunset Rooftop">
-            <h4>Sunset Rooftop</h4>
-            <p><strong>Location:</strong> Cape Town</p>
-            <p><strong>Capacity:</strong> 80</p>
-            <a href="../venueconnect/venue-detail(rooftop).html" class="btn-primary">View Venue</a>
+      <div class="tab-content">
+        <!-- Personal Info Tab -->
+        <div class="tab-pane active" id="personal-info">
+          <form id="profile-form">
+            <div class="form-group">
+              <label for="full-name">Full Name</label>
+              <input type="text" id="full-name" value="Hlalanathi Mashimbye">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" value="mshhla017@myuct.ac.za">
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" value="+27 67 605 5801">
+            </div>
+            <div class="form-group">
+              <label for="bio">Bio</label>
+              <textarea id="bio" rows="4">Music lover and event enthusiast based in Cape Town.</textarea>
+            </div>
+            <div class="form-actions">
+              <button type="button" id="save-profile">Save Changes</button>
+            </div>
+          </form>
+        </div>
+        
+        <!-- My Bookings Tab -->
+        <div class="tab-pane" id="my-bookings">
+          <div class="booking-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+            <button class="filter-btn" data-filter="past">Past</button>
           </div>
-
-          <!-- Wishlist Item 2 -->
-          <div class="event-card">
-            <img src="../images/streetcorner.jpg" alt="Street Corner Pop-Up">
-            <h4>Street Corner Pop-Up</h4>
-            <p><strong>Location:</strong> Street Stage</p>
-            <p><strong>Capacity:</strong> 30</p>
-            <a href="../venueconnect/venue-detail(street).html" class="btn-primary">View Venue</a>
+          
+          <div class="bookings-list" id="bookings-container">
+            <!-- Bookings will be populated here -->
           </div>
-
+        </div>
+        
+        <!-- Preferences Tab -->
+        <div class="tab-pane" id="preferences">
+          <h3>Event Preferences</h3>
+          <div class="preference-section">
+            <h4>Music Genres</h4>
+            <div class="tags-container" id="music-genres">
+              <span class="tag">Jazz <button class="remove-tag">×</button></span>
+              <span class="tag">Hip Hop <button class="remove-tag">×</button></span>
+              <span class="tag">Rock <button class="remove-tag">×</button></span>
+              <button id="add-genre-btn" class="add-tag-btn">+ Add</button>
+            </div>
+          </div>
+          
+          <div class="preference-section">
+            <h4>Favorite Locations</h4>
+            <div class="tags-container" id="locations">
+              <span class="tag">Cape Town <button class="remove-tag">×</button></span>
+              <span class="tag">Johannesburg <button class="remove-tag">×</button></span>
+              <button id="add-location-btn" class="add-tag-btn">+ Add</button>
+            </div>
+          </div>
+          
+          <div class="preference-section">
+            <h4>Notification Settings</h4>
+            <div class="toggle-option">
+              <span>Email notifications</span>
+              <label class="toggle">
+                <input type="checkbox" id="email-notifications" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-option">
+              <span>SMS notifications</span>
+              <label class="toggle">
+                <input type="checkbox" id="sms-notifications">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-option">
+              <span>Event recommendations</span>
+              <label class="toggle">
+                <input type="checkbox" id="recommendations" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" id="save-preferences">Save Preferences</button>
+          </div>
+        </div>
+        
+        <!-- My Events Tab -->
+        <div class="tab-pane" id="my-events">
+          <div class="event-creation">
+            <h3>Create Your Own Event</h3>
+            <form id="create-event-form">
+              <div class="form-group">
+                <label for="event-name">Event Name</label>
+                <input type="text" id="event-name" placeholder="Your event name">
+              </div>
+              <div class="form-group">
+                <label for="event-venue">Venue</label>
+                <select id="event-venue">
+                  <option value="">Select a venue</option>
+                  <option value="the-blue-room">The Blue Room</option>
+                  <option value="city-warehouse">City Warehouse</option>
+                  <option value="sunset-rooftop">Sunset Rooftop</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="event-date">Date</label>
+                <input type="date" id="event-date">
+              </div>
+              <div class="form-group">
+                <label for="event-time">Time</label>
+                <input type="time" id="event-time">
+              </div>
+              <div class="form-group">
+                <label for="event-description">Description</label>
+                <textarea id="event-description" rows="4" placeholder="Describe your event"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="event-price">Ticket Price (R)</label>
+                <input type="number" id="event-price" min="0" step="10" placeholder="0">
+              </div>
+              <div class="form-actions">
+                <button type="button" id="create-event-btn">Create Event</button>
+              </div>
+            </form>
+          </div>
+          
+          <div class="my-events-list">
+            <h3>My Created Events</h3>
+            <div id="created-events-container">
+              <!-- Created events will be populated here -->
+            </div>
+          </div>
         </div>
       </div>
-
-    </div>
-  </section>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer class="footer">
@@ -106,13 +320,452 @@
       <p>&copy; 2025 WhatsOn | All rights reserved | 0676055801</p>
       <nav class="footer-nav">
         <ul>
-          <li><a href="../about/about.html">About</a></li>
-          <li><a href="../about/privacy-policy.html">Privacy Policy</a></li>
-          <li><a href="../about/terms-of-use.html">Terms of Use</a></li>
+            <li><a href="../about/about.html">About</a></li>
+            <li><a href="../about/privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="../about/terms-of-use.html">Terms of Use</a></li>
         </ul>
       </nav>
     </div>
   </footer>
 
+  <div id="add-tag-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3 id="modal-title">Add New Tag</h3>
+      <input type="text" id="tag-input" placeholder="Enter tag">
+      <button id="confirm-tag-btn">Add</button>
+    </div>
+  </div>
+
+  <script src="../scripts.js"></script>
+  <script>
+    // Profile Page Specific JavaScript
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Tab navigation
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      const tabPanes = document.querySelectorAll('.tab-pane');
+      
+      tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const targetTab = button.getAttribute('data-tab');
+          
+          // Update active button
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          
+          // Show target tab
+          tabPanes.forEach(pane => {
+            pane.classList.remove('active');
+            if (pane.id === targetTab) {
+              pane.classList.add('active');
+            }
+          });
+        });
+      });
+      
+      // Profile Picture Change
+      const profilePicBtn = document.getElementById('change-picture-btn');
+      const pictureUpload = document.getElementById('picture-upload');
+      const profileImage = document.getElementById('profile-image');
+      
+      profilePicBtn.addEventListener('click', () => {
+        pictureUpload.click();
+      });
+      
+      pictureUpload.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            profileImage.src = e.target.result;
+            // Save to localStorage
+            localStorage.setItem('profilePicture', e.target.result);
+            showNotification('Profile picture updated!');
+          }
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+      
+      // Load profile picture if exists
+      const savedPicture = localStorage.getItem('profilePicture');
+      if (savedPicture) {
+        profileImage.src = savedPicture;
+      }
+      
+      // Save profile changes
+      const saveProfileBtn = document.getElementById('save-profile');
+      saveProfileBtn.addEventListener('click', () => {
+        const profileData = {
+          name: document.getElementById('full-name').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          bio: document.getElementById('bio').value
+        };
+        
+        localStorage.setItem('profileData', JSON.stringify(profileData));
+        document.getElementById('profile-name').textContent = profileData.name;
+        showNotification('Profile updated successfully!');
+      });
+      
+      // Load profile data if exists
+      const savedProfile = localStorage.getItem('profileData');
+      if (savedProfile) {
+        const profileData = JSON.parse(savedProfile);
+        document.getElementById('full-name').value = profileData.name;
+        document.getElementById('email').value = profileData.email;
+        document.getElementById('phone').value = profileData.phone;
+        document.getElementById('bio').value = profileData.bio;
+        document.getElementById('profile-name').textContent = profileData.name;
+      }
+      
+      // Tag/preference management
+      const addGenreBtn = document.getElementById('add-genre-btn');
+      const addLocationBtn = document.getElementById('add-location-btn');
+      const modal = document.getElementById('add-tag-modal');
+      const closeModal = document.querySelector('.close-modal');
+      const tagInput = document.getElementById('tag-input');
+      const confirmTagBtn = document.getElementById('confirm-tag-btn');
+      let currentTagCategory = '';
+      
+      function openTagModal(category) {
+        currentTagCategory = category;
+        document.getElementById('modal-title').textContent = 
+          category === 'music-genres' ? 'Add Music Genre' : 'Add Location';
+        modal.style.display = 'block';
+        tagInput.value = '';
+        tagInput.focus();
+      }
+      
+      addGenreBtn.addEventListener('click', () => openTagModal('music-genres'));
+      addLocationBtn.addEventListener('click', () => openTagModal('locations'));
+      
+      closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+      
+      confirmTagBtn.addEventListener('click', () => {
+        const tagValue = tagInput.value.trim();
+        if (tagValue) {
+          const tagsContainer = document.getElementById(currentTagCategory);
+          const newTag = document.createElement('span');
+          newTag.className = 'tag';
+          newTag.innerHTML = `${tagValue} <button class="remove-tag">×</button>`;
+          
+          // Insert before the add button
+          tagsContainer.insertBefore(newTag, 
+            currentTagCategory === 'music-genres' ? addGenreBtn : addLocationBtn);
+          
+          // Add event listener to remove button
+          newTag.querySelector('.remove-tag').addEventListener('click', function() {
+            this.parentElement.remove();
+            saveTags();
+          });
+          
+          modal.style.display = 'none';
+          saveTags();
+        }
+      });
+      
+      // Save tags/preferences
+      function saveTags() {
+        const musicGenres = Array.from(document.querySelectorAll('#music-genres .tag'))
+          .map(tag => tag.textContent.replace('×', '').trim());
+        
+        const locations = Array.from(document.querySelectorAll('#locations .tag'))
+          .map(tag => tag.textContent.replace('×', '').trim());
+        
+        const preferences = {
+          musicGenres,
+          locations,
+          emailNotifications: document.getElementById('email-notifications').checked,
+          smsNotifications: document.getElementById('sms-notifications').checked,
+          recommendations: document.getElementById('recommendations').checked
+        };
+        
+        localStorage.setItem('userPreferences', JSON.stringify(preferences));
+      }
+      
+      // Load saved preferences
+      const savedPreferences = localStorage.getItem('userPreferences');
+      if (savedPreferences) {
+        const preferences = JSON.parse(savedPreferences);
+        
+        // Set toggles
+        document.getElementById('email-notifications').checked = preferences.emailNotifications;
+        document.getElementById('sms-notifications').checked = preferences.smsNotifications;
+        document.getElementById('recommendations').checked = preferences.recommendations;
+        
+        // Clear existing tags
+        document.querySelectorAll('#music-genres .tag, #locations .tag').forEach(tag => tag.remove());
+        
+        // Add saved music genres
+        preferences.musicGenres.forEach(genre => {
+          const newTag = document.createElement('span');
+          newTag.className = 'tag';
+          newTag.innerHTML = `${genre} <button class="remove-tag">×</button>`;
+          document.getElementById('music-genres').insertBefore(newTag, addGenreBtn);
+          
+          newTag.querySelector('.remove-tag').addEventListener('click', function() {
+            this.parentElement.remove();
+            saveTags();
+          });
+        });
+        
+        // Add saved locations
+        preferences.locations.forEach(location => {
+          const newTag = document.createElement('span');
+          newTag.className = 'tag';
+          newTag.innerHTML = `${location} <button class="remove-tag">×</button>`;
+          document.getElementById('locations').insertBefore(newTag, addLocationBtn);
+          
+          newTag.querySelector('.remove-tag').addEventListener('click', function() {
+            this.parentElement.remove();
+            saveTags();
+          });
+        });
+      }
+      
+      // Save preferences button
+      document.getElementById('save-preferences').addEventListener('click', () => {
+        saveTags();
+        showNotification('Preferences saved successfully!');
+      });
+      
+      // Event creation
+      document.getElementById('create-event-btn').addEventListener('click', () => {
+        const eventName = document.getElementById('event-name').value.trim();
+        const eventVenue = document.getElementById('event-venue').value;
+        const eventDate = document.getElementById('event-date').value;
+        const eventTime = document.getElementById('event-time').value;
+        const eventDesc = document.getElementById('event-description').value.trim();
+        const eventPrice = document.getElementById('event-price').value;
+        
+        if (!eventName || !eventVenue || !eventDate || !eventTime) {
+          alert('Please fill in all required fields');
+          return;
+        }
+        
+        const newEvent = {
+          id: Date.now().toString(),
+          name: eventName,
+          venue: document.getElementById('event-venue').options[document.getElementById('event-venue').selectedIndex].text,
+          venueId: eventVenue,
+          date: eventDate,
+          time: eventTime,
+          description: eventDesc,
+          price: eventPrice || 0,
+          status: 'upcoming'
+        };
+        
+        // Save to localStorage
+        const myEvents = JSON.parse(localStorage.getItem('myCreatedEvents')) || [];
+        myEvents.push(newEvent);
+        localStorage.setItem('myCreatedEvents', JSON.stringify(myEvents));
+        
+        // Reset form
+        document.getElementById('create-event-form').reset();
+        
+        showNotification('Event created successfully!');
+        loadCreatedEvents();
+      });
+      
+      // Load my bookings
+      function loadBookings() {
+        const bookingsContainer = document.getElementById('bookings-container');
+        bookingsContainer.innerHTML = '';
+        
+        // Sample bookings data (in a real app, this would come from API/localStorage)
+        const bookings = [
+          {
+            id: 'booking1',
+            type: 'venue',
+            name: 'The Blue Room',
+            date: '2025-05-15',
+            time: '19:00',
+            hours: 2,
+            status: 'confirmed',
+            upcoming: true
+          },
+          {
+            id: 'booking2',
+            type: 'venue',
+            name: 'City Warehouse',
+            date: '2025-06-10',
+            time: '18:00',
+            hours: 3,
+            status: 'pending',
+            upcoming: true
+          },
+          {
+            id: 'booking3',
+            type: 'event',
+            name: 'Jazz Night',
+            venue: 'The Blue Room',
+            date: '2025-03-20',
+            time: '20:00',
+            status: 'completed',
+            upcoming: false
+          }
+        ];
+        
+        // Get active filter
+        const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+        
+        // Filter bookings
+        const filteredBookings = bookings.filter(booking => {
+          if (activeFilter === 'all') return true;
+          if (activeFilter === 'upcoming') return booking.upcoming;
+          if (activeFilter === 'past') return !booking.upcoming;
+          return true;
+        });
+        
+        // Display bookings
+        filteredBookings.forEach(booking => {
+          const bookingEl = document.createElement('div');
+          bookingEl.className = `booking-item ${booking.type} ${booking.status}`;
+          
+          if (booking.type === 'venue') {
+            bookingEl.innerHTML = `
+              <div class="booking-details">
+                <h4>${booking.name}</h4>
+                <p><strong>Date:</strong> ${formatDate(booking.date)}</p>
+                <p><strong>Time:</strong> ${formatTime(booking.time)}</p>
+                <p><strong>Duration:</strong> ${booking.hours} hrs</p>
+                <p class="status ${booking.status}"><strong>Status:</strong> ${capitalizeFirst(booking.status)}</p>
+              </div>
+              <div class="booking-actions">
+                ${booking.upcoming ? `<button class="cancel-booking" data-id="${booking.id}">Cancel</button>` : ''}
+                <button class="view-booking" data-id="${booking.id}">View Details</button>
+              </div>
+            `;
+          } else {
+            bookingEl.innerHTML = `
+              <div class="booking-details">
+                <h4>${booking.name}</h4>
+                <p><strong>Venue:</strong> ${booking.venue}</p>
+                <p><strong>Date:</strong> ${formatDate(booking.date)}</p>
+                <p><strong>Time:</strong> ${formatTime(booking.time)}</p>
+                <p class="status ${booking.status}"><strong>Status:</strong> ${capitalizeFirst(booking.status)}</p>
+              </div>
+              <div class="booking-actions">
+                ${booking.upcoming ? `<button class="cancel-booking" data-id="${booking.id}">Cancel</button>` : ''}
+                <button class="view-booking" data-id="${booking.id}">View Details</button>
+              </div>
+            `;
+          }
+          
+          bookingsContainer.appendChild(bookingEl);
+        });
+        
+        // Add event listeners to cancel buttons
+        document.querySelectorAll('.cancel-booking').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const bookingId = this.getAttribute('data-id');
+            if (confirm('Are you sure you want to cancel this booking?')) {
+              // In a real app, you would call an API here
+              this.closest('.booking-item').classList.add('cancelled');
+              this.closest('.booking-item').querySelector('.status').textContent = 'Status: Cancelled';
+              this.remove();
+              showNotification('Booking cancelled successfully');
+            }
+          });
+        });
+      }
+      
+      // Load created events
+      function loadCreatedEvents() {
+        const container = document.getElementById('created-events-container');
+        container.innerHTML = '';
+        
+        const myEvents = JSON.parse(localStorage.getItem('myCreatedEvents')) || [];
+        
+        if (myEvents.length === 0) {
+          container.innerHTML = '<p class="no-events">You haven\'t created any events yet.</p>';
+          return;
+        }
+        
+        myEvents.forEach(event => {
+          const eventEl = document.createElement('div');
+          eventEl.className = 'created-event';
+          eventEl.innerHTML = `
+            <div class="event-details">
+              <h4>${event.name}</h4>
+              <p><strong>Venue:</strong> ${event.venue}</p>
+              <p><strong>Date:</strong> ${formatDate(event.date)}</p>
+              <p><strong>Time:</strong> ${formatTime(event.time)}</p>
+              <p><strong>Price:</strong> R${event.price}</p>
+            </div>
+            <div class="event-actions">
+              <button class="edit-event" data-id="${event.id}">Edit</button>
+              <button class="delete-event" data-id="${event.id}">Delete</button>
+            </div>
+          `;
+          
+          container.appendChild(eventEl);
+        });
+        
+        // Add event listeners
+        document.querySelectorAll('.delete-event').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const eventId = this.getAttribute('data-id');
+            if (confirm('Are you sure you want to delete this event?')) {
+              const myEvents = JSON.parse(localStorage.getItem('myCreatedEvents')) || [];
+              const updatedEvents = myEvents.filter(event => event.id !== eventId);
+              localStorage.setItem('myCreatedEvents', JSON.stringify(updatedEvents));
+              this.closest('.created-event').remove();
+              showNotification('Event deleted successfully');
+              
+              if (updatedEvents.length === 0) {
+                document.getElementById('created-events-container').innerHTML = 
+                  '<p class="no-events">You haven\'t created any events yet.</p>';
+              }
+            }
+          });
+        });
+      }
+      
+      // Helper functions
+      function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+      }
+      
+      function formatTime(timeStr) {
+        const [hours, minutes] = timeStr.split(':');
+        const hour = parseInt(hours, 10);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const formattedHour = hour % 12 || 12;
+        return `${formattedHour}:${minutes} ${ampm}`;
+      }
+      
+      function capitalizeFirst(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      }
+      
+      // Filter booking buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          loadBookings();
+        });
+      });
+      
+      // Initial loads
+      loadBookings();
+      loadCreatedEvents();
+      
+      // Update stats
+      document.getElementById('events-count').textContent = '12';
+      document.getElementById('venues-count').textContent = '5';
+    });
+  </script>
 </body>
 </html>
+
+
